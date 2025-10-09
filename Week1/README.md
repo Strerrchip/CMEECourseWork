@@ -1,5 +1,9 @@
 # Week 1 README
 
+# Summary
+- This week focused on building fundamental UNIX, shell scripting, LaTeX, and Git skills.  
+- Each section was designed to progressively enhance command-line proficiency, automation, and reproducibility in scientific work.
+
 # Directory structure
 - Code
 - Data
@@ -62,7 +66,7 @@
     - Merges two input files into a single output file.
     - Ensures both files exist before running. 
     - Writes the merged result to `Results/Merged.txt`.
-    - Demonstrates how to handle multiple file inputs and redirection.
+    - Demonstrates how to handle multiple file inputs and redirection. 
   - # Code/tiff2png.sh
     - Converts `.tif` image files into `.png` format using ImageMagick. 
     - Checks whether ImageMagick is installed before running.
@@ -92,5 +96,41 @@
   - Gain confidence in writing structured, reusable scripts for future analysis.
   
 
+# Thursday to do
+- # content
+  - Learn how to write and compile scientific documents using LaTeX.
+  - Practice version control using Git to manage the coursework repository.
+  - Understand how to ignore temporary and output files with `.gitignore`.
+- # script description
+  - # Code/FirstExample.tex
+    - This LaTeX document demonstrates the structure of a basic scientific report.  
+    - It includes:
+      - Title, author, and date setup.
+      - Text formatting, mathematical equations, and figures.
+      - Bibliography management via `.bib` file.
+    - Compiled into a PDF using `CompileLaTeX.sh`.
+   - # Code/FirstBiblio.bib
+    - A BibTeX bibliography file containing reference entries.
+    - Used to demonstrate citation and bibliography formatting in LaTeX.
+   - # Code/CompileLaTeX.sh
+     - A shell script to compile `.tex` documents automatically.
+     - Steps:
+      1. Compile the LaTeX file (`pdflatex`).
+      2. Process bibliography (`bibtex`).
+      3. Re-compile twice to ensure proper references.
+    - Output PDF is stored in `Results/`.
+   - # .gitignore
+      - A file that defines which files Git should ignore.
+      - Created in the repository root directory (`CMEECourseWork/`).
+- # The mistake I made
+  - At first, .gitignore content was entered directly in the terminal instead of being saved as a text file, causing multiple “command not found” errors.
+  - Realized that .gitignore must be created as a file, not executed as shell commands.
+  - After correction, the ignored files (e.g. .csv, .pdf) were properly excluded from Git tracking.
+- # Targets
+  - Create a scientific document using LaTeX and compile it into PDF.
+  - Manage the entire repository with Git and practice committing, branching, and pushing.
+  - Learn to use .gitignore to control tracked and ignored files.
 
-
+# Friday to do
+- Library Induction
+ 
