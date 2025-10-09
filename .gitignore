@@ -1,0 +1,16 @@
+# Temporary and output files
+*~
+*.tmp
+
+# Data and image outputs
+*.csv
+*.png
+*.jpg
+*.pdf
+
+# Folders to ignore
+Week1/Results/
+Week1/Sandbox/
+
+# Example output file to keep
+!Week1/Results/test.txt.csv

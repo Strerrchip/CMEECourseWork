@@ -1,0 +1,14 @@
+#1 Count how many lines there are in each file under data/fasta
+wc -l data/fasta/*.fa
+
+#2 Print everything starting from the second line for the E. coli genome
+tail -n +2 data/fasta/E_coli.fa
+
+#3 Count the sequence length of this genome (remove newlines first)
+tail -n +2 data/fasta/E_coli.fa | tr -d '\n' | wc -m
+
+#4 Count matches of the sequence "ATGC" in the E. coli genome
+tail -n +2 data/fasta/E_coli.fa | tr -d '\n' | grep -o "ATGC" | wc -l
+
+#5 Compute the AT/GC ratio: (A+T)/(G+C), keeping any non-ATGC letters
+tail -n +2 data/fasta/E_coli.fa | tr -d '\n' | awk '{A=gsub(/A/,""); T=gsub(/T/,""); G=gsub(/G/,""); C=gsub(/C/,""); print (A+T)/(G+C)}'
