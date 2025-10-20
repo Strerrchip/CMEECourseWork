@@ -1,0 +1,420 @@
+======================================================================
+AUTOMATED FEEDBACK LOG
+======================================================================
+
+HOW TO READ THIS FEEDBACK:
+--------------------------
+1. This log contains detailed feedback on your code execution
+2. Each script is tested and results are shown with output and errors
+3. IMPORTANT: Read all the way to the END for a summary and debugging guidance
+4. The summary at the end will help you understand and fix any issues
+5. Scripts are run in a headless environment (no GUI applications)
+
+======================================================================
+
+Starting testing for Avery Chen
+
+Processing week 1
+
+Your current Git repo size is about 17.90 KiB on disk
+
+Found directories: Week1, .git, Week2, Feedback
+Found files: .gitignore, README.md
+
+Processing week 1: Week1
+
+Found 9 code files to test.
+
+Note: Expected file checking not performed (no FileList provided).
+Expected file checking will only be performed during final assessment.
+
+======================================================================
+Script: csvtospace.sh
+
+Contents:
+
+**********
+#!/bin/bash
+# Author: Leyu Chen
+# Script: csvtospace.sh
+# Description: Convert CSV (comma separated) to space-separated text file
+# Usage: bash csvtospace.sh <input.csv>
+
+if [ $# -ne 1 ]; then
+    echo "Usage: bash csvtospace.sh <input.csv>"
+    exit 1
+fi
+
+infile="$1"
+
+if [ ! -f "$infile" ]; then
+    echo "Error: file '$infile' not found!"
+    exit 1
+fi
+
+outfile="${infile%.csv}_space.txt"
+
+if [ -f "$outfile" ]; then
+    echo "Error: output file '$outfile' already exists. Aborted."
+    exit 1
+fi
+
+awk 'BEGIN{FS=","; OFS=" "} {for(i=1; i<=NF; i++) if ($i=="") $i="NA"; print $0}' "$infile" > "$outfile"
+
+echo "Conversion done! Saved as '$outfile'."
+
+**********
+
+Output (first 500 chars):
+
+**********
+Usage: bash csvtospace.sh <input.csv>
+
+**********
+No errors.
+======================================================================
+Script: CompileLaTeX.sh
+
+Contents:
+
+**********
+#!/bin/bash
+# Author: Leyu Chen
+# Script: CompileLaTeX.sh
+# Description: Compile a LaTeX document (with BibTeX) and clean auxiliary files
+
+if [ $# -eq 0 ]; then
+    echo "Usage: bash CompileLaTeX.sh <filename without .tex>"
+    exit 1
+fi
+
+filename="${1%.tex}"
+
+pdflatex "$filename.tex"
+bibtex "$filename"
+pdflatex "$filename.tex"
+pdflatex "$filename.tex"
+
+# Open PDF
+evince "$filename.pdf" &
+
+# Clear files
+rm -f *.aux *.log *.bbl *.blg
+
+**********
+
+Output (first 500 chars):
+
+**********
+Usage: bash CompileLaTeX.sh <filename without .tex>
+
+**********
+No errors.
+======================================================================
+Script: tiff2png.sh
+
+Contents:
+
+**********
+#!/bin/bash
+# Author: Leyu Chen
+# Script: tiff2png.sh
+# Desc: Convert all .tif images in the current directory to .png format
+# Date: Oct 2025
+
+# 检查是否安装了 convert 命令
+if ! command -v convert &> /dev/null
+then
+    echo "Error: ImageMagick not installed. Please run: sudo apt install imagemagick"
+    exit 1
+fi
+
+# 检查是否存在 .tif 文件
+shopt -s nullglob
+files=(*.tif)
+if [ ${#files[@]} -eq 0 ]; then
+    echo "No .tif files found in the current directory."
+    exit 0
+fi
+
+# 转换所有 .tif 文件
+for f in *.tif; do
+    echo "Converting $f ..."
+    convert "$f" "$(basename "$f" .tif).png"
+done
+
+echo "All conversions done!"
+
+**********
+
+Output (first 500 chars):
+
+**********
+No .tif files found in the current directory.
+
+**********
+No errors.
+======================================================================
+Script: boilerplate.sh
+
+Contents:
+
+**********
+#!/bin/bash
+#Author: Avery L Chen leyu.chen25@imperial.ac.uk
+#Script: boilerplate.sh
+#Desc: simple boilerplate for shell scripts
+#Arguments: none
+#Date: Oct 2025
+
+echo -e "\nThis is a shell script! \n"
+
+#exit
+
+**********
+
+Output (first 500 chars):
+
+**********
+
+This is a shell script! 
+
+
+**********
+No errors.
+======================================================================
+Script: ConcatenateTwoFiles.sh
+
+Contents:
+
+**********
+#!/bin/bash
+# Author: Leyu Chen
+# Script: ConcatenateTwoFiles.sh
+# Desc: Concatenate the contents of two files into a new one
+# Args: 1 -> first file
+#       2 -> second file
+#       3 -> output file
+
+# 检查参数数量
+if [ $# -ne 3 ]; then
+  echo "Usage: bash ConcatenateTwoFiles.sh <file1> <file2> <output>"
+  exit 1
+fi
+
+# 检查输入文件是否存在
+if [ ! -f "$1" ]; then
+  echo "Error: file not found: $1"
+  exit 1
+fi
+
+if [ ! -f "$2" ]; then
+  echo "Error: file not found: $2"
+  exit 1
+fi
+
+# 合并文件
+cat "$1" > "$3"
+cat "$2" >> "$3"
+
+echo "Merged File is $3"
+echo
+cat "$3"
+
+**********
+
+Output (first 500 chars):
+
+**********
+Usage: bash ConcatenateTwoFiles.sh <file1> <file2> <output>
+
+**********
+No errors.
+======================================================================
+Script: tabtocsv.sh
+
+Contents:
+
+**********
+#!/bin/sh
+# Author: Leyu Chen
+# Script: tabtocsv.sh
+# Desc: Replace tabs with commas; save as <input>.csv
+# Args: 1 -> tab-delimited file
+
+if [ $# -ne 1 ]; then
+  echo "Usage: bash tabtocsv.sh <tab_file>"
+  exit 1
+fi
+
+infile="$1"
+if [ ! -f "$infile" ]; then
+  echo "Error: file not found: $infile"
+  exit 1
+fi
+
+outfile="${infile}.csv"
+echo "Creating a comma delimited version of $infile ..."
+tr -s "\t" "," < "$infile" > "$outfile"
+echo "Done! Saved to $outfile"
+
+**********
+
+Output (first 500 chars):
+
+**********
+Usage: bash tabtocsv.sh <tab_file>
+
+**********
+No errors.
+======================================================================
+Script: MyExampleScript.sh
+
+Contents:
+
+**********
+#!/bin/sh
+# Author: Leyu Chen leyu.chen25@imperial.ac.uk
+# Script: MyExampleScript.sh
+# Desc: A simple script to show how variables and $USER work
+
+MSG1="Hello"
+MSG2=$USER
+
+echo "$MSG1 $MSG2"
+echo "Hello $USER"
+
+
+**********
+
+Output (first 500 chars):
+
+**********
+Hello mhasoba
+Hello mhasoba
+
+**********
+No errors.
+======================================================================
+Script: variables.sh
+
+Contents:
+
+**********
+#!/bin/sh
+# Desc: illustrate special and assigned variables, user input and command substitution
+
+echo "This script was called with $# parameters"
+echo "The script's name is $0"
+echo "The arguments are $@"
+echo "The first argument is $1"
+echo "The second argument is $2"
+
+MY_VAR='some string'
+echo "current MY_VAR:" "$MY_VAR"
+echo "Please enter a new string"
+read MY_VAR
+echo "current MY_VAR:" "$MY_VAR"
+
+echo "Enter two numbers separated by space(s)"
+read a b
+echo "you entered" $a "and" $b "; Their sum is:"
+MY_SUM=$(expr $a + $b)
+echo $MY_SUM
+
+
+**********
+
+Output (first 500 chars):
+
+**********
+This script was called with 0 parameters
+The script's name is variables.sh
+The arguments are 
+The first argument is 
+The second argument is 
+current MY_VAR: some string
+Please enter a new string
+current MY_VAR: 
+Enter two numbers separated by space(s)
+you entered and ; Their sum is:
+
+
+**********
+Errors:
+**********
+expr: syntax error: missing argument after ‘+’
+
+**********
+======================================================================
+Script: CountLines.sh
+
+Contents:
+
+**********
+#!/bin/bash
+# Author: Leyu Chen
+# Script: CountLines.sh
+# Desc: Count the number of lines in a given file
+# Args: 1 -> file name
+
+# Check if argument is provided
+if [ $# -ne 1 ]; then
+  echo "Usage: bash CountLines.sh <file>"
+  exit 1
+fi
+
+# Check if the file exists
+if [ ! -f "$1" ]; then
+  echo "Error: file not found: $1"
+  exit 1
+fi
+
+# Count lines
+NumLines=$(wc -l < "$1")
+echo "The file $1 has $NumLines lines"
+echo
+
+**********
+
+Output (first 500 chars):
+
+**********
+Usage: bash CountLines.sh <file>
+
+**********
+No errors.
+
+======================================================================
+FEEDBACK SUMMARY
+======================================================================
+
+Scripts tested: 17
+Scripts successful: 16
+Scripts with errors: 1
+Warnings/Notes: 1
+
+IMPORTANT DEBUGGING GUIDANCE:
+------------------------------
+
+Please review all warnings and errors, and your directory structure based on the above log.
+
+Ask yourself: Why did I not get these warnings or errors on my machine when I tested my code?
+Common reasons for environment differences:
+
+• File paths: Your local machine may have different directory structures
+• Dependencies: Missing packages or different versions
+• File permissions: Scripts may not be executable on the testing server
+• Case sensitivity: Linux systems are case-sensitive (your laptop may not be)
+• Working directory: Scripts may assume they run from a specific location
+• Input files: Required data files may be missing or in wrong locations
+
+Debugging steps:
+1. Test your code in a clean environment (fresh directory)
+2. Check all file paths are relative and correct
+3. Verify all required files are present and properly named
+4. Test on a case-sensitive system if possible
+5. Run your scripts from different directories to check robustness
+
+Fix these issues and test again. Good debugging skills are essential for scientific computing!
+
