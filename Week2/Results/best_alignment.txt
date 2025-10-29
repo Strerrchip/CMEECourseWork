@@ -1,0 +1,3 @@
+Best alignment score: 5
+Longer : ATCGTACGT
+Aligned: ....TACGT
