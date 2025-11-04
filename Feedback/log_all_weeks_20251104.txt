@@ -1,0 +1,1701 @@
+======================================================================
+AUTOMATED FEEDBACK LOG
+======================================================================
+
+HOW TO READ THIS FEEDBACK:
+--------------------------
+1. This log contains detailed feedback on your code execution
+2. Each script is tested and results are shown with output and errors
+3. IMPORTANT: Read all the way to the END for a summary and debugging guidance
+4. The summary at the end will help you understand and fix any issues
+5. Scripts are run in a headless environment (no GUI applications)
+
+======================================================================
+
+Starting testing for Avery Chen
+
+Processing all weeks found in repository
+
+Your current Git repo size is about 4.91 MiB on disk
+
+Found directories: Week1, Week3, .git, Week4, .ipynb_checkpoints, myenv, Week2, Feedback
+Found files: .gitignore, .RData, .Rhistory, README.md
+
+Processing all weeks: Week1, Week3, Week4, Week2
+
+Found 32 code files to test.
+
+Note: Expected file checking not performed (no FileList provided).
+Expected file checking will only be performed during final assessment.
+
+======================================================================
+Script: csvtospace.sh
+
+Contents:
+
+**********
+#!/bin/bash
+# Author: Leyu Chen
+# Script: csvtospace.sh
+# Description: Convert CSV (comma separated) to space-separated text file
+# Usage: bash csvtospace.sh <input.csv>
+
+if [ $# -ne 1 ]; then
+    echo "Usage: bash csvtospace.sh <input.csv>"
+    exit 1
+fi
+
+infile="$1"
+
+if [ ! -f "$infile" ]; then
+    echo "Error: file '$infile' not found!"
+    exit 1
+fi
+
+outfile="${infile%.csv}_space.txt"
+
+if [ -f "$outfile" ]; then
+    echo "Error: output file '$outfile' already exists. Aborted."
+    exit 1
+fi
+
+awk 'BEGIN{FS=","; OFS=" "} {for(i=1; i<=NF; i++) if ($i=="") $i="NA"; print $0}' "$infile" > "$outfile"
+
+echo "Conversion done! Saved as '$outfile'."
+
+**********
+
+Output (first 500 chars):
+
+**********
+Usage: bash csvtospace.sh <input.csv>
+
+**********
+No errors.
+======================================================================
+Script: CompileLaTeX.sh
+
+Contents:
+
+**********
+#!/bin/bash
+# Author: Leyu Chen
+# Script: CompileLaTeX.sh
+# Description: Compile a LaTeX document (with BibTeX) and clean auxiliary files
+
+if [ $# -eq 0 ]; then
+    echo "Usage: bash CompileLaTeX.sh <filename without .tex>"
+    exit 1
+fi
+
+filename="${1%.tex}"
+
+pdflatex "$filename.tex"
+bibtex "$filename"
+pdflatex "$filename.tex"
+pdflatex "$filename.tex"
+
+# Open PDF
+evince "$filename.pdf" &
+
+# Clear files
+rm -f *.aux *.log *.bbl *.blg
+
+**********
+
+Output (first 500 chars):
+
+**********
+Usage: bash CompileLaTeX.sh <filename without .tex>
+
+**********
+No errors.
+======================================================================
+Script: tiff2png.sh
+
+Contents:
+
+**********
+#!/bin/bash
+# Author: Leyu Chen
+# Script: tiff2png.sh
+# Desc: Convert all .tif images in the current directory to .png format
+# Date: Oct 2025
+
+# 检查是否安装了 convert 命令
+if ! command -v convert &> /dev/null
+then
+    echo "Error: ImageMagick not installed. Please run: sudo apt install imagemagick"
+    exit 1
+fi
+
+# 检查是否存在 .tif 文件
+shopt -s nullglob
+files=(*.tif)
+if [ ${#files[@]} -eq 0 ]; then
+    echo "No .tif files found in the current directory."
+    exit 0
+fi
+
+# 转换所有 .tif 文件
+for f in *.tif; do
+    echo "Converting $f ..."
+    convert "$f" "$(basename "$f" .tif).png"
+done
+
+echo "All conversions done!"
+
+**********
+
+Output (first 500 chars):
+
+**********
+No .tif files found in the current directory.
+
+**********
+No errors.
+======================================================================
+Script: boilerplate.sh
+
+Contents:
+
+**********
+#!/bin/bash
+#Author: Avery L Chen leyu.chen25@imperial.ac.uk
+#Script: boilerplate.sh
+#Desc: simple boilerplate for shell scripts
+#Arguments: none
+#Date: Oct 2025
+
+echo -e "\nThis is a shell script! \n"
+
+#exit
+
+**********
+
+Output (first 500 chars):
+
+**********
+
+This is a shell script! 
+
+
+**********
+No errors.
+======================================================================
+Script: ConcatenateTwoFiles.sh
+
+Contents:
+
+**********
+#!/bin/bash
+# Author: Leyu Chen
+# Script: ConcatenateTwoFiles.sh
+# Desc: Concatenate the contents of two files into a new one
+# Args: 1 -> first file
+#       2 -> second file
+#       3 -> output file
+
+# 检查参数数量
+if [ $# -ne 3 ]; then
+  echo "Usage: bash ConcatenateTwoFiles.sh <file1> <file2> <output>"
+  exit 1
+fi
+
+# 检查输入文件是否存在
+if [ ! -f "$1" ]; then
+  echo "Error: file not found: $1"
+  exit 1
+fi
+
+if [ ! -f "$2" ]; then
+  echo "Error: file not found: $2"
+  exit 1
+fi
+
+# 合并文件
+cat "$1" > "$3"
+cat "$2" >> "$3"
+
+echo "Merged File is $3"
+echo
+cat "$3"
+
+**********
+
+Output (first 500 chars):
+
+**********
+Usage: bash ConcatenateTwoFiles.sh <file1> <file2> <output>
+
+**********
+No errors.
+======================================================================
+Script: tabtocsv.sh
+
+Contents:
+
+**********
+#!/bin/sh
+# Author: Leyu Chen
+# Script: tabtocsv.sh
+# Desc: Replace tabs with commas; save as <input>.csv
+# Args: 1 -> tab-delimited file
+
+if [ $# -ne 1 ]; then
+  echo "Usage: bash tabtocsv.sh <tab_file>"
+  exit 1
+fi
+
+infile="$1"
+if [ ! -f "$infile" ]; then
+  echo "Error: file not found: $infile"
+  exit 1
+fi
+
+outfile="${infile}.csv"
+echo "Creating a comma delimited version of $infile ..."
+tr -s "\t" "," < "$infile" > "$outfile"
+echo "Done! Saved to $outfile"
+
+**********
+
+Output (first 500 chars):
+
+**********
+Usage: bash tabtocsv.sh <tab_file>
+
+**********
+No errors.
+======================================================================
+Script: MyExampleScript.sh
+
+Contents:
+
+**********
+#!/bin/sh
+# Author: Leyu Chen leyu.chen25@imperial.ac.uk
+# Script: MyExampleScript.sh
+# Desc: A simple script to show how variables and $USER work
+
+MSG1="Hello"
+MSG2=$USER
+
+echo "$MSG1 $MSG2"
+echo "Hello $USER"
+
+
+**********
+
+Output (first 500 chars):
+
+**********
+Hello mhasoba
+Hello mhasoba
+
+**********
+No errors.
+======================================================================
+Script: variables.sh
+
+Contents:
+
+**********
+#!/bin/sh
+# Desc: illustrate special and assigned variables, user input and command substitution
+
+echo "This script was called with $# parameters"
+echo "The script's name is $0"
+echo "The arguments are $@"
+echo "The first argument is $1"
+echo "The second argument is $2"
+
+MY_VAR='some string'
+echo "current MY_VAR:" "$MY_VAR"
+echo "Please enter a new string"
+read MY_VAR
+echo "current MY_VAR:" "$MY_VAR"
+
+echo "Enter two numbers separated by space(s)"
+read a b
+echo "you entered" $a "and" $b "; Their sum is:"
+MY_SUM=$(expr $a + $b)
+echo $MY_SUM
+
+
+**********
+
+Output (first 500 chars):
+
+**********
+This script was called with 0 parameters
+The script's name is variables.sh
+The arguments are 
+The first argument is 
+The second argument is 
+current MY_VAR: some string
+Please enter a new string
+current MY_VAR: 
+Enter two numbers separated by space(s)
+you entered and ; Their sum is:
+
+
+**********
+Errors:
+**********
+expr: syntax error: missing argument after ‘+’
+
+**********
+======================================================================
+Script: CountLines.sh
+
+Contents:
+
+**********
+#!/bin/bash
+# Author: Leyu Chen
+# Script: CountLines.sh
+# Desc: Count the number of lines in a given file
+# Args: 1 -> file name
+
+# Check if argument is provided
+if [ $# -ne 1 ]; then
+  echo "Usage: bash CountLines.sh <file>"
+  exit 1
+fi
+
+# Check if the file exists
+if [ ! -f "$1" ]; then
+  echo "Error: file not found: $1"
+  exit 1
+fi
+
+# Count lines
+NumLines=$(wc -l < "$1")
+echo "The file $1 has $NumLines lines"
+echo
+
+**********
+
+Output (first 500 chars):
+
+**********
+Usage: bash CountLines.sh <file>
+
+**********
+No errors.
+======================================================================
+Script: Vectorize2.R
+
+Contents:
+
+**********
+# Runs the stochastic Ricker equation with gaussian fluctuations
+
+rm(list = ls())
+
+stochrick <- function(p0 = runif(1000, .5, 1.5), r = 1.2, K = 1, sigma = 0.2,numyears = 100){
+
+  N <- matrix(NA, numyears, length(p0))  #initialize empty matrix
+
+  N[1, ] <- p0
+
+  for (pop in 1:length(p0)) { #loop through the populations
+
+    for (yr in 2:numyears){ #for each pop, loop through the years
+
+      N[yr, pop] <- N[yr-1, pop] * exp(r * (1 - N[yr - 1, pop] / K) + rnorm(1, 0, sigma)) # add one fluctuation from normal distribution
+    
+     }
+  
+  }
+ return(N)
+
+}
+
+# Now write another function called stochrickvect that vectorizes the above to
+# the extent possible, with improved performance: 
+
+# print("Vectorized Stochastic Ricker takes:")
+# print(system.time(res2<-stochrickvect()))
+**********
+
+Output (first 500 chars):
+
+**********
+
+**********
+No errors.
+======================================================================
+Script: RunVectorize2.R
+
+Contents:
+
+**********
+# Code/RunVectorize2.R
+# run this to time the two versions in Vectorize2.R
+source("Vectorize2.R")   
+
+loop_version <- function() {
+  x <- numeric(1e5)
+  for (i in 2:length(x)) x[i] <- x[i-1] + sin(i*0.001)
+  x
+}
+
+vectorized_version <- function() {
+  i <- 1:1e5
+  c(0, cumsum(sin(i[-1]*0.001)))
+}
+
+t_loop <- system.time({ res1 <- loop_version() })
+t_vec  <- system.time({ res2 <- vectorized_version() })
+
+sink("../Results/vectorize_timing.txt")
+cat("Loop elapsed: ", t_loop["elapsed"], "\n", sep = "")
+cat("Vectorized elapsed: ", t_vec["elapsed"], "\n", sep = "")
+cat("First 1000 equal? ", isTRUE(all.equal(res1[1:1000], res2[1:1000])), "\n", sep = "")
+sink()
+
+cat(" Timing written to ../Results/vectorize_timing.txt\n")
+
+**********
+
+Output (first 500 chars):
+
+**********
+ Timing written to ../Results/vectorize_timing.txt
+
+**********
+No errors.
+======================================================================
+Script: TAutoCorr.R
+
+Contents:
+
+**********
+setwd("~/Documents/CMEECourseWork/Week3")
+library(dplyr)
+
+# read data
+data <- read.csv("./Data/florida_weather.csv")
+
+# calculate autocorrelation for adjacent years
+results <- data %>%
+  arrange(location, year) %>%
+  group_by(location) %>%
+  summarise(
+    real_cor = cor(mean_temp[-n()], mean_temp[-1], use = "pairwise.complete.obs")
+  )
+
+write.csv(results, "./Results/TAutoCorr_summary.csv", row.names = FALSE)
+cat("Autocorrelation results saved to ./Results/TAutoCorr_summary.csv\n")
+
+**********
+
+Output (first 500 chars):
+
+**********
+
+**********
+Errors:
+**********
+Error in setwd("~/Documents/CMEECourseWork/Week3") : 
+  cannot change working directory
+Execution halted
+
+**********
+======================================================================
+Script: MySpeciesData.R
+
+Contents:
+
+**********
+# Code/MySpeciesData.R
+setwd("~/Documents/CMEECourseWork/Week3")
+
+Species <- c("Tiger", "Elephant", "Panda", "Giraffe")
+Population <- c(3200, 500000, 1864, 117000)
+Lifespan <- c(15, 70, 20, 25)
+
+SpeciesData <- data.frame(Species, Population, Lifespan)
+
+# display the data frame
+print(SpeciesData)
+
+# save the results
+write.csv(SpeciesData, "./Results/SpeciesData.csv", row.names = FALSE)
+cat(" SpeciesData.csv saved to ./Results/\n")
+# read back the data
+data <- read.csv("./Results/SpeciesData.csv")
+
+# compute statistics
+mean_life <- mean(data$Lifespan)
+sd_life <- sd(data$Lifespan)
+min_life <- min(data$Lifespan)
+max_life <- max(data$Lifespan)
+
+cat("Average lifespan:", mean_life, "\n")
+cat("SD lifespan:", sd_life, "\n")
+cat("Min lifespan:", min_life, "\n")
+cat("Max lifespan:", max_life, "\n")
+
+**********
+
+Output (first 500 chars):
+
+**********
+
+**********
+Errors:
+**********
+Error in setwd("~/Documents/CMEECourseWork/Week3") : 
+  cannot change working directory
+Execution halted
+
+**********
+======================================================================
+Script: TreeHeight.R
+
+Contents:
+
+**********
+TreeHeight <- function(degrees, distance) {
+  radians <- degrees * pi / 180
+  distance * tan(radians)
+}
+
+# Read data from ../Data/trees.csv
+trees <- read.csv("../Data/trees.csv")
+
+trees$Tree.Height.m <- TreeHeight(trees$Angle.degrees, trees$Distance.m)
+
+# Write output to ../Results/TreeHts.csv
+write.csv(
+  trees[, c("Species", "Distance.m", "Angle.degrees", "Tree.Height.m")],
+  "../Results/TreeHts.csv",
+  row.names = FALSE
+)
+
+cat("Tree heights calculated and saved to ../Results/TreeHts.csv\n")
+system.time(source("Code/Vectorize2.R"))
+
+**********
+
+Output (first 500 chars):
+
+**********
+
+**********
+Errors:
+**********
+Error in file(file, "rt") : cannot open the connection
+Calls: read.csv -> read.table -> file
+In addition: Warning message:
+In file(file, "rt") :
+  cannot open file '../Data/trees.csv': No such file or directory
+Execution halted
+
+**********
+======================================================================
+Script: test.R
+
+Contents:
+
+**********
+a <- 4
+print(a)
+a * a
+a_squared <- a * a
+print(sqrt(a_squared))  # calculate square root
+v <- c(0, 1, 2, 3, 4)
+print(v)
+v <- c(0, 1, 2, 3, 4)
+
+is.vector(v)    # check if v is a vector
+mean(v)         # mean
+var(v)          # standard deviation
+median(v)       # median
+sum(v)          # sum
+prod(v + 1)     # each element plus 1 then multiplied
+length(v)       # number of elements
+
+print(as.integer(3.1))
+print(as.numeric(4))
+print(as.character(155))
+print(as.logical(5))
+print(as.roman(155))
+
+
+**********
+
+Output (first 500 chars):
+
+**********
+[1] 4
+[1] 16
+[1] 4
+[1] 0 1 2 3 4
+[1] TRUE
+[1] 2
+[1] 2.5
+[1] 2
+[1] 10
+[1] 120
+[1] 5
+[1] 3
+[1] 4
+[1] "155"
+[1] TRUE
+[1] CLV
+
+**********
+No errors.
+======================================================================
+Script: outer_function <- function(a) middle_fun.r
+
+Contents:
+
+**********
+outer_function <- function(a) middle_function(a)
+middle_function <- function(b) inner_function(b)
+inner_function <- function(c) { result <- c / d; return(result) }  # d is undefined
+outer_function(1)
+traceback()
+
+**********
+
+Output (first 500 chars):
+
+**********
+
+**********
+Errors:
+**********
+bash: -c: line 1: syntax error near unexpected token `('
+bash: -c: line 1: `cd "/home/mhasoba/Documents/Teaching/IC_CMEE/2025-26/Coursework/StudentRepos//AveryChen_lc2025/Week4/Code" && /usr/lib/R/bin/Rscript --vanilla --slave outer_function <- function(a) middle_fun.r'
+
+**********
+======================================================================
+Script: ZeroDivisionError.py
+
+Contents:
+
+**********
+def buggyfunc(x):
+    y = x
+    for i in range(x):
+        try:
+            y = y - 1
+            z = x / y
+        except ZeroDivisionError:
+            print("Division by zero is undefined.")
+        except:
+            print("An unexpected error occurred.x={x},y={y}")
+        else:
+            print(f"successfully run x={x}, y={y}, z={z}")      
+    return z
+buggyfunc(20)
+
+x = 10
+print(f"{x = }")
+
+from math import cos, radians
+theta = 30
+print(f"{theta = }, {cos(radians(theta)) = :.3f}")
+
+**********
+
+Output (first 500 chars):
+
+**********
+successfully run x=20, y=19, z=1.0526315789473684
+successfully run x=20, y=18, z=1.1111111111111112
+successfully run x=20, y=17, z=1.1764705882352942
+successfully run x=20, y=16, z=1.25
+successfully run x=20, y=15, z=1.3333333333333333
+successfully run x=20, y=14, z=1.4285714285714286
+successfully run x=20, y=13, z=1.5384615384615385
+successfully run x=20, y=12, z=1.6666666666666667
+successfully run x=20, y=11, z=1.8181818181818181
+successfully run x=20, y=10, z=2.0
+successfully run x=20, y=9, z
+**********
+No errors.
+======================================================================
+Script: MyExampleScript.py
+
+Contents:
+
+**********
+#!/usr/bin/env python3
+# Author: Avery L Chen leyu.chen25@imperial.ac.uk
+# Script: MyExampleScript.py
+# Desc: Demonstrate function definition and main program structure
+# Date: Oct 2025
+
+# Define a function to print a greeting
+def greet(name):
+    """Print a simple greeting message."""
+    print("Hello,", name, "! Welcome to Python scripting.")
+
+# Define another function to do a simple calculation
+def add_two_numbers(x, y):
+    """Return the sum of two numbers."""
+    return x + y
+
+# The main program
+def main():
+    print("This is the main part of the script.")
+    greet("Leyu")
+    result = add_two_numbers(5, 7)
+    print("The sum of 5 and 7 is:", result)
+
+# Run main() only if executed directly
+if __name__ == "__main__":
+    main()
+
+**********
+
+Output (first 500 chars):
+
+**********
+This is the main part of the script.
+Hello, Leyu ! Welcome to Python scripting.
+The sum of 5 and 7 is: 12
+
+**********
+No errors.
+======================================================================
+Script: lc2.py
+
+Contents:
+
+**********
+#!/usr/bin/env python3
+# Author: Avery L Chen leyu.chen25@imperial.ac.uk
+# Script: lc2.py
+# Desc: Demonstrate nested loops and comprehensions
+# Date: Oct 2025
+
+# Nested loop
+pairs = []
+for i in range(3):
+    for j in range(3):
+        pairs.append((i, j))
+
+print("Nested loops:", pairs)
+
+# Equivalent list comprehension
+pairs_lc = [(i, j) for i in range(3) for j in range(3)]
+print("List comprehension:", pairs_lc)
+
+**********
+
+Output (first 500 chars):
+
+**********
+Nested loops: [(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2)]
+List comprehension: [(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2)]
+
+**********
+No errors.
+======================================================================
+Script: oaks_debugme_fixed.py
+
+Contents:
+
+**********
+#!/usr/bin/env python3
+# Author: Avery L Chen leyu.chen25@imperial.ac.uk
+# Script: oaks_debugme_fixed.py
+# Desc: Find oaks robustly; includes doctests and handles minor typos/punctuation
+# Date: Oct 2025
+
+import re
+from pathlib import Path
+import csv
+
+def _levenshtein_one_or_less(a: str, b: str) -> bool:
+    """Return True if edit distance between a and b is <= 1 (insert/delete/substitute).
+    This lightweight check is enough for common typos like 'Quercuss' or 'Querucs'.
+    """
+    if a == b:
+        return True
+    la, lb = len(a), len(b)
+    # length diff > 1 -> distance > 1
+    if abs(la - lb) > 1:
+        return False
+    # same length: allow at most 1 substitution
+    if la == lb:
+        mism = sum(x != y for x, y in zip(a, b))
+        return mism <= 1
+    # length differs by 1: allow one insertion/deletion
+    if la > lb:
+        a, b = b, a  # make a the shorter
+        la, lb = lb, la
+    i = j = diff = 0
+    while i < la and j < lb:
+        if a[i] == b[j]:
+            i += 1; j += 1
+        else:
+            diff += 1
+            if diff > 1:
+                return False
+            j += 1  # skip one char in longer string
+    # remaining chars in b also count
+    diff += (lb - j)
+    return diff <= 1
+
+def is_an_oak(name: str) -> bool:
+    """
+    Return True if a species name belongs to genus Quercus (robust to case, punctuation, minor typos).
+
+    Doctests:
+    >>> is_an_oak('Quercus robur')
+    True
+    >>> is_an_oak('quercus cerris')
+    True
+    >>> is_an_oak('Fagus sylvatica')
+    False
+    >>> is_an_oak('Quercuss petraea')   # extra 's' -> treat as oak
+    True
+    >>> is_an_oak('Querucs suber')      # letters swapped -> treat as oak
+    True
+    >>> is_an_oak('Quercus. ilex')      # punctuation after genus
+    True
+    >>> is_an_oak('Quercu robur')       # distance=1 but missing 's' -> treat as oak
+    True
+    >>> is_an_oak('Que rcus robur')     # weird spacing -> clean then check
+    True
+    """
+    if not name or not name.strip():
+        return False
+    first = name.strip().split()[0]
+    first = re.sub(r'[^A-Za-z]', '', first).lower()  # remove punctuation, to lower
+    target = "quercus"
+    return _levenshtein_one_or_less(first, target)
+
+def main():
+    infile = Path(__file__).resolve().parent.parent / "Data" / "TestOaksData.csv"
+    outfile = Path(__file__).resolve().parent.parent / "Results" / "JustOaksData.csv"
+    outfile.parent.mkdir(parents=True, exist_ok=True)
+
+    with open(infile, newline='') as f, open(outfile, 'w', newline='') as g:
+        rdr = csv.DictReader(f)
+        w = csv.writer(g)
+        w.writerow(["species"])
+        for row in rdr:
+            sp = row["species"]
+            if is_an_oak(sp):
+                w.writerow([sp])
+
+if __name__ == "__main__":
+    main()
+
+**********
+
+Output (first 500 chars):
+
+**********
+
+**********
+Errors:
+**********
+Traceback (most recent call last):
+  File "/home/mhasoba/Documents/Teaching/IC_CMEE/2025-26/Coursework/StudentRepos/AveryChen_lc2025/Week2/Code/oaks_debugme_fixed.py", line 86, in <module>
+    main()
+  File "/home/mhasoba/Documents/Teaching/IC_CMEE/2025-26/Coursework/StudentRepos/AveryChen_lc2025/Week2/Code/oaks_debugme_fixed.py", line 76, in main
+    with open(infile, newline='') as f, open(outfile, 'w', newline='') as g:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/mhasoba/Documents/Teaching/IC_CMEE/2025-26/Coursework/StudentRepos/AveryChen_lc2025/Week2/Data/TestOaksData.csv'
+
+**********
+======================================================================
+Script: oaks.py
+
+Contents:
+
+**********
+#!/usr/bin/env python3
+# Author: Avery L Chen leyu.chen25@imperial.ac.uk
+# Script: oaks.py
+# Desc: Extract all species names that start with 'Quercus' (oaks) from a given file
+# Date: Oct 2025
+
+# Function to determine if a name is an oak
+def is_an_oak(name):
+    """Return True if the species name starts with 'quercus'."""
+    return name.lower().startswith('quercus')
+
+# Main function
+def main():
+    # Input file
+    infile = '../Data/species.txt'  # Example data file
+    outfile = '../Results/oaks.txt'
+
+    f = open(infile, 'r')
+    g = open(outfile, 'w')
+
+    for line in f:
+        species = line.strip()
+        if is_an_oak(species):
+            print(species)
+            g.write(species + '\n')
+
+    f.close()
+    g.close()
+
+if __name__ == '__main__':
+    main()
+**********
+
+Output (first 500 chars):
+
+**********
+Quercus robur
+Quercus cerris
+quercus petraea
+
+**********
+No errors.
+======================================================================
+Script: variables.py
+
+Contents:
+
+**********
+#!/usr/bin/env python3
+# Author: Avery L Chen leyu.chen25@imperial.ac.uk
+# Script: variables.py
+# Desc: Demonstrate variable creation and manipulation in Python
+# Date: Oct 2025
+
+# Assigning variables
+a = 5
+b = 2.5
+c = "Hello"
+d = True
+
+# Display variable values
+print("Integer a:", a)
+print("Float b:", b)
+print("String c:", c)
+print("Boolean d:", d)
+
+# Arithmetic operations
+sum_ab = a + b
+product_ab = a * b
+
+print("Sum of a and b:", sum_ab)
+print("Product of a and b:", product_ab)
+
+# Type conversion
+a_str = str(a)
+b_int = int(b)
+print("Converted a to string:", a_str)
+print("Converted b to integer:", b_int)
+
+# String concatenation
+greeting = c + " world!"
+print(greeting)
+
+**********
+
+Output (first 500 chars):
+
+**********
+Integer a: 5
+Float b: 2.5
+String c: Hello
+Boolean d: True
+Sum of a and b: 7.5
+Product of a and b: 12.5
+Converted a to string: 5
+Converted b to integer: 2
+Hello world!
+
+**********
+No errors.
+======================================================================
+Script: dictionary.py
+
+Contents:
+
+**********
+#!/usr/bin/env python3
+# Author: Avery L Chen leyu.chen25@imperial.ac.uk
+# Script: dictionary.py
+# Desc: Demonstrate dictionary creation and iteration
+# Date: Oct 2025
+
+# Create a dictionary
+fruits = {"apple": 2, "banana": 3, "orange": 1}
+
+# Iterate keys and values
+for fruit, count in fruits.items():
+    print(f"{fruit}: {count}")
+
+# Dictionary comprehension
+squared = {k: v**2 for k, v in fruits.items()}
+print("Squared counts:", squared)
+
+**********
+
+Output (first 500 chars):
+
+**********
+apple: 2
+banana: 3
+orange: 1
+Squared counts: {'apple': 4, 'banana': 9, 'orange': 1}
+
+**********
+No errors.
+======================================================================
+Script: cfexercises1.py
+
+Contents:
+
+**********
+#!/usr/bin/env python3
+# Author: Avery L Chen leyu.chen25@imperial.ac.uk
+# Script: cfexercises1.py
+# Desc: Demonstrate control flow and modular programming
+# Date: Oct 2025
+
+# Define functions that take arguments and return results
+
+def foo_1(x):
+    """Return the square root of x."""
+    return x ** 0.5
+
+def foo_2(x, y):
+    """Return the larger of x and y."""
+    if x > y:
+        return x
+    else:
+        return y
+
+def foo_3(x, y, z):
+    """Return the sorted list of x, y, z in ascending order."""
+    return sorted([x, y, z])
+
+def foo_4(x):
+    """Return x! (factorial of x)."""
+    if x == 1:
+        return 1
+    else:
+        return x * foo_4(x - 1)
+
+def foo_5(x):
+    """Return the sum of 1 to x."""
+    return sum(range(1, x + 1))
+def main():
+    print("foo_1(9) =", foo_1(9))
+    print("foo_2(4,7) =", foo_2(4,7))
+    print("foo_3(8,5,6) =", foo_3(8,5,6))
+    print("foo_4(5) =", foo_4(5))
+    print("foo_5(10) =", foo_5(10))
+
+if __name__ == "__main__":
+    main()
+
+**********
+
+Output (first 500 chars):
+
+**********
+foo_1(9) = 3.0
+foo_2(4,7) = 7
+foo_3(8,5,6) = [5, 6, 8]
+foo_4(5) = 120
+foo_5(10) = 55
+
+**********
+No errors.
+======================================================================
+Script: run_LV_models.py
+
+Contents:
+
+**********
+#!/usr/bin/env python3
+# Author: Avery L Chen leyu.chen25@imperial.ac.uk
+# Script: run_LV_models.py
+# Desc: Run LV1.py and LV2.py with profiling; print timing and top hotspots
+# Date: Oct 2025
+
+from pathlib import Path
+import subprocess
+import time
+import pstats
+
+ROOT = Path(__file__).resolve().parent
+LV1 = ROOT / "LV1.py"
+LV2 = ROOT / "LV2.py"
+PROF1 = ROOT / "LV1.prof"
+PROF2 = ROOT / "LV2.prof"
+
+def run_with_profile(cmd, prof_path):
+    """Run a python command under cProfile, return wall time seconds."""
+    t0 = time.perf_counter()
+    subprocess.run(["python3", "-m", "cProfile", "-o", str(prof_path)] + cmd,
+                   check=True)
+    t1 = time.perf_counter()
+    return t1 - t0
+
+def show_profile(prof_path, title, top=10, sortby="cumtime"):
+    print(f"\n=== Profile: {title} ({prof_path.name}) ===")
+    p = pstats.Stats(str(prof_path))
+    p.sort_stats(sortby).print_stats(top)
+
+def main():
+    # 1) LV1
+    t1 = run_with_profile([str(LV1)], PROF1)
+    show_profile(PROF1, "LV1.py")
+    print(f"LV1 wall time: {t1:.3f} s")
+
+    # 2) LV2 with example args: r a z e K
+    args = ["1.0", "0.5", "1.0", "0.5", "50", "--tmax", "80"]
+    t2 = run_with_profile([str(LV2)] + args, PROF2)
+    show_profile(PROF2, "LV2.py")
+    print(f"LV2 wall time: {t2:.3f} s")
+
+if __name__ == "__main__":
+    main()
+
+**********
+
+Output (first 500 chars):
+
+**********
+Final R=4.3240, C=2.6275  (t=80.0)
+
+=== Profile: LV1.py (LV1.prof) ===
+Tue Nov  4 08:31:47 2025    /home/mhasoba/Documents/Teaching/IC_CMEE/2025-26/Coursework/StudentRepos/AveryChen_lc2025/Week2/Code/LV1.prof
+
+         1624203 function calls (1595405 primitive calls) in 0.670 seconds
+
+   Ordered by: cumulative time
+   List reduced from 4664 to 10 due to restriction <10>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+    441/1    0.003    0.000    0.672    0.672 {built-i
+**********
+No errors.
+======================================================================
+Script: lc1.py
+
+Contents:
+
+**********
+#!/usr/bin/env python3
+# Author: Avery L Chen leyu.chen25@imperial.ac.uk
+# Script: lc1.py
+# Desc: Demonstrate for-loops and list comprehensions
+# Date: Oct 2025
+
+# Traditional loop
+x = range(10)
+y = []
+
+for i in x:
+    if i % 2 == 0:
+        y.append(i**2)
+
+print("Using loop:", y)
+
+# List comprehension
+y_lc = [i**2 for i in x if i % 2 == 0]
+print("Using list comprehension:", y_lc)
+
+
+**********
+
+Output (first 500 chars):
+
+**********
+Using loop: [0, 4, 16, 36, 64]
+Using list comprehension: [0, 4, 16, 36, 64]
+
+**********
+No errors.
+======================================================================
+Script: tuple.py
+
+Contents:
+
+**********
+#!/usr/bin/env python3
+# Author: Avery L Chen leyu.chen25@imperial.ac.uk
+# Script: lc1.py
+# Desc: Demonstrate for-loops and list comprehensions
+# Date: Oct 2025
+#!/usr/bin/env python3
+# Author: Avery L Chen leyu.chen25@imperial.ac.uk
+# Script: tuple.py
+# Desc: Demonstrate tuple operations
+# Date: Oct 2025
+
+# Create tuples
+a = (1, 2, 3)
+b = (4, 5, 6)
+
+# Concatenate
+c = a + b
+print("Concatenated:", c)
+
+# Access and slicing
+print("First element:", c[0])
+print("Slice [2:5]:", c[2:5])
+
+**********
+
+Output (first 500 chars):
+
+**********
+Concatenated: (1, 2, 3, 4, 5, 6)
+First element: 1
+Slice [2:5]: (3, 4, 5)
+
+**********
+No errors.
+======================================================================
+Script: conditionals.py
+
+Contents:
+
+**********
+#!/usr/bin/env python3
+# Author: Avery L Chen leyu.chen25@imperial.ac.uk
+# Script: conditionals.py
+# Desc: Demonstrate conditional statements in Python
+# Date: Oct 2025
+
+x = 10
+y = 20
+
+if x < y:
+    print("x is less than y")
+elif x == y:
+    print("x is equal to y")
+else:
+    print("x is greater than y")
+
+# Nested conditions
+if x > 5:
+    if y > 15:
+        print("Both x and y are large numbers")
+
+**********
+
+Output (first 500 chars):
+
+**********
+x is less than y
+Both x and y are large numbers
+
+**********
+No errors.
+======================================================================
+Script: loops.py
+
+Contents:
+
+**********
+#!/usr/bin/env python3
+# Author: Avery L Chen leyu.chen25@imperial.ac.uk
+# Script: loops.py
+# Desc: Demonstrate the use of for and while loops in Python
+# Date: Oct 2025
+
+# For loop example
+for i in range(5):
+    print(f"For loop iteration {i}")
+
+# While loop example
+count = 0
+while count < 5:
+    print(f"While loop count is {count}")
+    count += 1
+
+**********
+
+Output (first 500 chars):
+
+**********
+For loop iteration 0
+For loop iteration 1
+For loop iteration 2
+For loop iteration 3
+For loop iteration 4
+While loop count is 0
+While loop count is 1
+While loop count is 2
+While loop count is 3
+While loop count is 4
+
+**********
+No errors.
+======================================================================
+Script: LV1.py
+
+Contents:
+
+**********
+#!/usr/bin/env python3
+# Author: Avery L Chen leyu.chen25@imperial.ac.uk
+# Script: LV1.py
+# Desc: Lotka–Volterra (consumer–resource) dynamics; save time-series and phase plot as PDFs
+# Date: Oct 2025
+
+"""
+Integrate a simple consumer–resource (Lotka–Volterra) model using
+an explicit Euler scheme (no SciPy required), and save two figures:
+
+1) Time series of Resource (R) and Consumer (C) vs time
+2) Phase portrait: C vs R
+
+Both PDFs are saved in ../Results without displaying on screen.
+"""
+
+from pathlib import Path
+import numpy as np
+
+# Use a non-interactive backend so nothing pops up
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
+
+def lv_euler(R0=40.0, C0=9.0, a=0.6, b=0.025, c=0.8, d=0.02,  # parameters
+             tmax=60.0, dt=0.01):
+    """
+    Euler integration for:
+        dR/dt =  a*R - b*R*C
+        dC/dt = -c*C + d*R*C
+    Returns (t, R, C)
+    """
+    n = int(tmax / dt) + 1
+    t = np.linspace(0, tmax, n)
+    R = np.zeros(n)
+    C = np.zeros(n)
+    R[0], C[0] = R0, C0
+
+    for i in range(n - 1):
+        dR = a * R[i] - b * R[i] * C[i]
+        dC = -c * C[i] + d * R[i] * C[i]
+        R[i + 1] = max(R[i] + dt * dR, 0.0)  # keep non-negative
+        C[i + 1] = max(C[i] + dt * dC, 0.0)
+
+    return t, R, C
+
+
+def main():
+    # ---- run model
+    t, R, C = lv_euler()
+
+    # ---- output directory (Week2/Results)
+    out_dir = Path(__file__).resolve().parent.parent / "Results"
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    # ---- Figure 1: time series
+    fig1 = plt.figure()
+    plt.plot(t, R, label="Resource (R)")
+    plt.plot(t, C, label="Consumer (C)")
+    plt.xlabel("Time")
+    plt.ylabel("Density")
+    plt.title("Lotka–Volterra: time series")
+    plt.legend()
+    fig1.tight_layout()
+    fig1.savefig(out_dir / "LV_time.pdf")
+
+    # ---- Figure 2: phase portrait (C vs R)
+    fig2 = plt.figure()
+    plt.plot(R, C)
+    plt.xlabel("Resource density (R)")
+    plt.ylabel("Consumer density (C)")
+    plt.title("Consumer–Resource population dynamics")
+    fig2.tight_layout()
+    fig2.savefig(out_dir / "LV_phase.pdf")
+
+    # plt.show()  # intentionally omitted
+
+
+if __name__ == "__main__":
+    main()
+
+**********
+
+Output (first 500 chars):
+
+**********
+
+**********
+No errors.
+======================================================================
+Script: align_seqs.py
+
+Contents:
+
+**********
+#!/usr/bin/env python3
+# Author: Avery L Chen leyu.chen25@imperial.ac.uk
+# Script: align_seqs.py
+# Desc: Read two DNA sequences from a file, align the shorter to the longer by sliding,
+#       and write the best alignment and score to an output text file.
+# Date: Oct 2025
+
+from pathlib import Path
+import sys
+import csv
+
+def read_two_seqs_from_csv(infile):
+    """Read two sequences from a CSV file with 2 rows (or any rows labelled seq1/seq2)."""
+    s1, s2 = None, None
+    with open(infile, newline="") as f:
+        rdr = csv.reader(f)
+        for row in rdr:
+            if not row:
+                continue
+            # accept formats: ["seq1","ATCG..."] or ["ATCG...", "..."] etc.
+            if len(row) == 2 and row[0].strip().lower().startswith("seq"):
+                label, seq = row[0], row[1]
+            else:
+                # if no labels, take as sequence only
+                seq = row[-1]
+            seq = "".join(seq.split()).upper()   # remove whitespace, upper-case
+            if s1 is None:
+                s1 = seq
+            elif s2 is None:
+                s2 = seq
+                break
+    if s1 is None or s2 is None:
+        raise ValueError("Could not read two sequences from input file.")
+    return s1, s2
+
+def calculate_score(longer, shorter, start_pos):
+    """Return score for aligning shorter against longer starting at start_pos."""
+    score = 0
+    for i in range(len(shorter)):
+        if start_pos + i >= len(longer):
+            break
+        if longer[start_pos + i] == shorter[i]:
+            score += 1
+    return score
+
+def best_alignment(seq_a, seq_b):
+    """Return tuple (best_offset, best_score, longer, shorter)."""
+    # decide which one is longer
+    if len(seq_a) >= len(seq_b):
+        longer, shorter = seq_a, seq_b
+    else:
+        longer, shorter = seq_b, seq_a
+
+    best_score = -1
+    best_offset = 0
+    # slide shorter along longer
+    for start in range(len(longer) - len(shorter) + 1):
+        sc = calculate_score(longer, shorter, start)
+        if sc > best_score:
+            best_score = sc
+            best_offset = start
+    return best_offset, best_score, longer, shorter
+
+def make_alignment_string(longer, shorter, offset):
+    """Return a human-readable alignment string with dots for mismatches."""
+    pad = "." * offset
+    aligned = pad + shorter
+    # pad to the right to match length for printing
+    if len(aligned) < len(longer):
+        aligned = aligned + "." * (len(longer) - len(aligned))
+    return aligned
+
+def write_result(outfile, longer, aligned_shorter, score):
+    outdir = Path(outfile).parent
+    outdir.mkdir(parents=True, exist_ok=True)
+    with open(outfile, "w") as g:
+        g.write(f"Best alignment score: {score}\n")
+        g.write(f"Longer : {longer}\n")
+        g.write(f"Aligned: {aligned_shorter}\n")
+
+def main():
+    # default paths
+    default_in = Path(__file__).resolve().parent.parent / "Data" / "sequences.csv"
+    default_out = Path(__file__).resolve().parent.parent / "Results" / "best_alignment.txt"
+
+    # allow optional CLI args: infile [outfile]
+    if len(sys.argv) == 1:
+        infile = default_in
+        outfile = default_out
+    elif len(sys.argv) == 2:
+        infile = Path(sys.argv[1])
+        outfile = default_out
+    else:
+        infile = Path(sys.argv[1])
+        outfile = Path(sys.argv[2])
+
+    s1, s2 = read_two_seqs_from_csv(infile)
+    offset, score, longer, shorter = best_alignment(s1, s2)
+    aligned_shorter = make_alignment_string(longer, shorter, offset)
+    write_result(outfile, longer, aligned_shorter, score)
+
+    # also show to screen
+    print(f"Score: {score}")
+    print(f"Longer : {longer}")
+    print(f"Aligned: {aligned_shorter}")
+    print(f"\nWritten to: {outfile}")
+
+if __name__ == "__main__":
+    main()
+
+
+**********
+
+Output (first 500 chars):
+
+**********
+
+**********
+Errors:
+**********
+Traceback (most recent call last):
+  File "/home/mhasoba/Documents/Teaching/IC_CMEE/2025-26/Coursework/StudentRepos/AveryChen_lc2025/Week2/Code/align_seqs.py", line 109, in <module>
+    main()
+  File "/home/mhasoba/Documents/Teaching/IC_CMEE/2025-26/Coursework/StudentRepos/AveryChen_lc2025/Week2/Code/align_seqs.py", line 97, in main
+    s1, s2 = read_two_seqs_from_csv(infile)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mhasoba/Documents/Teaching/IC_CMEE/2025-26/Coursework/StudentRepos/AveryChen_lc2025/Week2/Code/align_seqs.py", line 15, in read_two_seqs_from_csv
+    with open(infile, newline="") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/mhasoba/Documents/Teaching/IC_CMEE/2025-26/Coursework/StudentRepos/AveryChen_lc2025/Week2/Data/sequences.csv'
+
+**********
+======================================================================
+Script: LV2.py
+
+Contents:
+
+**********
+#!/usr/bin/env python3
+# Author: Avery L Chen leyu.chen25@imperial.ac.uk
+# Script: LV2.py
+# Desc: Lotka–Volterra with resource density dependence (logistic term); save PDFs, CLI params
+# Date: Oct 2025
+
+from pathlib import Path
+import argparse
+import numpy as np
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
+def lv2_euler(R0=40.0, C0=9.0, r=1.0, a=0.5, z=1.0, e=0.5, K=50.0,
+              tmax=60.0, dt=0.01):
+    """Euler integration for:
+        dR/dt = r*R*(1 - R/K) - a*C*R
+        dC/dt = -z*C + e*a*C*R
+    Returns (t, R, C)
+    """
+    n = int(tmax / dt) + 1
+    t = np.linspace(0, tmax, n)
+    R = np.zeros(n); C = np.zeros(n)
+    R[0], C[0] = R0, C0
+    for i in range(n - 1):
+        dR = r*R[i]*(1 - R[i]/K) - a*C[i]*R[i]
+        dC = -z*C[i] + e*a*C[i]*R[i]
+        R[i+1] = max(R[i] + dt*dR, 0.0)
+        C[i+1] = max(C[i] + dt*dC, 0.0)
+    return t, R, C
+
+def save_figs(t, R, C, out_dir, tag="LV2"):
+    out_dir = Path(out_dir); out_dir.mkdir(parents=True, exist_ok=True)
+    # time series
+    fig1 = plt.figure()
+    plt.plot(t, R, label="Resource (R)")
+    plt.plot(t, C, label="Consumer (C)")
+    plt.xlabel("Time"); plt.ylabel("Density")
+    plt.title(f"{tag}: time series")
+    plt.legend(); fig1.tight_layout()
+    fig1.savefig(out_dir / f"{tag}_time.pdf")
+    plt.close(fig1)
+    # phase portrait
+    fig2 = plt.figure()
+    plt.plot(R, C)
+    plt.xlabel("Resource density (R)")
+    plt.ylabel("Consumer density (C)")
+    plt.title(f"{tag}: phase portrait")
+    fig2.tight_layout()
+    fig2.savefig(out_dir / f"{tag}_phase.pdf")
+    plt.close(fig2)
+
+def parse_args():
+    p = argparse.ArgumentParser(
+        description="Lotka–Volterra with resource density dependence (LV2)"
+    )
+    p.add_argument("r", type=float, nargs="?", default=1.0, help="resource growth rate r")
+    p.add_argument("a", type=float, nargs="?", default=0.5, help="attack rate a")
+    p.add_argument("z", type=float, nargs="?", default=1.0, help="consumer mortality z")
+    p.add_argument("e", type=float, nargs="?", default=0.5, help="conversion efficiency e")
+    p.add_argument("K", type=float, nargs="?", default=50.0, help="resource carrying capacity K")
+    p.add_argument("--R0", type=float, default=40.0)
+    p.add_argument("--C0", type=float, default=9.0)
+    p.add_argument("--tmax", type=float, default=60.0)
+    p.add_argument("--dt", type=float, default=0.01)
+    p.add_argument("--outdir", default=str(Path(__file__).resolve().parent.parent / "Results"))
+    return p.parse_args()
+
+def main():
+    args = parse_args()
+    t, R, C = lv2_euler(R0=args.R0, C0=args.C0, r=args.r, a=args.a, z=args.z,
+                        e=args.e, K=args.K, tmax=args.tmax, dt=args.dt)
+    save_figs(t, R, C, args.outdir, tag=f"LV2_r{args.r}_a{args.a}_z{args.z}_e{args.e}_K{args.K}")
+    # Print final values
+    print(f"Final R={R[-1]:.4f}, C={C[-1]:.4f}  (t={args.tmax})")
+
+if __name__ == "__main__":
+    main()
+
+**********
+
+Output (first 500 chars):
+
+**********
+Final R=3.5201, C=3.6458  (t=60.0)
+
+**********
+No errors.
+
+======================================================================
+FEEDBACK SUMMARY
+======================================================================
+
+Scripts tested: 32
+Scripts successful: 25
+Scripts with errors: 7
+Warnings/Notes: 1
+
+IMPORTANT DEBUGGING GUIDANCE:
+------------------------------
+
+Please review all warnings and errors, and your directory structure based on the above log.
+
+Ask yourself: Why did I not get these warnings or errors on my machine when I tested my code?
+Common reasons for environment differences:
+
+• File paths: Your local machine may have different directory structures
+• Dependencies: Missing packages or different versions
+• File permissions: Scripts may not be executable on the testing server
+• Case sensitivity: Linux systems are case-sensitive (your laptop may not be)
+• Working directory: Scripts may assume they run from a specific location
+• Input files: Required data files may be missing or in wrong locations
+
+Debugging steps:
+1. Test your code in a clean environment (fresh directory)
+2. Check all file paths are relative and correct
+3. Verify all required files are present and properly named
+4. Test on a case-sensitive system if possible
+5. Run your scripts from different directories to check robustness
+
+Fix these issues and test again. Good debugging skills are essential for scientific computing!
+
