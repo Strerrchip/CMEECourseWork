@@ -1,0 +1,40 @@
+ Basic Summary Statistics:
+      Mean       SD      Min      Max
+1 25.88275 7.882145 12.70385 45.24603
+
+ Correlation (Distance vs Height): 0.4534556 
+
+ Linear Model Summary:
+
+Call:
+lm(formula = Tree.Height.m ~ Distance.m, data = trees)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-13.675  -5.790  -1.353   5.414  15.396 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   1.2319     4.5066   0.273    0.785    
+Distance.m    0.6223     0.1126   5.527 1.98e-07 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 7.055 on 118 degrees of freedom
+Multiple R-squared:  0.2056,	Adjusted R-squared:  0.1989 
+F-statistic: 30.54 on 1 and 118 DF,  p-value: 1.982e-07
+
+
+ One-sample t-test (mu = 10):
+
+	One Sample t-test
+
+data:  trees$Tree.Height.m
+t = 22.074, df = 119, p-value < 2.2e-16
+alternative hypothesis: true mean is not equal to 10
+95 percent confidence interval:
+ 24.45799 27.30751
+sample estimates:
+mean of x 
+ 25.88275 
+
