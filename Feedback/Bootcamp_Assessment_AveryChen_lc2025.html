@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Bootcamp_Assessment_AveryChen_lc2025</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Bootcamp_Assessment_AveryChen_lc2025</h1>
+</header>
+<h1 id="bootcamp-assessment-avery-chen">Bootcamp Assessment: Avery
+Chen</h1>
+<h2 id="execution-results">Execution results</h2>
+<ul>
+<li>Scripts tested: 43</li>
+<li>Successful: 23</li>
+<li>With errors: 20</li>
+<li>Common failure mode: missing/mis-cased input paths
+(e.g. <code>../Data/...</code> on a case-sensitive system), leading to
+<strong>present-but-not-validated</strong> scripts.</li>
+</ul>
+<h2 id="script-specific-feedback">Script-Specific Feedback</h2>
+<blockquote>
+<p>Representative scripts chosen to cover: strong examples, assigned
+scripts, execution issues, and common style/robustness problems.</p>
+</blockquote>
+<blockquote>
+<p>Representative scripts chosen to cover: strong examples, assigned
+scripts, execution issues, and common style/robustness problems.</p>
+</blockquote>
+<h3 id="align_seqs.py">align_seqs.py</h3>
+<p><strong>Status:</strong> Present but not validated (Exit code 1 due
+to missing input file).</p>
+<p><strong>Evidence (from LOG):</strong> - Exit code: 1 - Missing from
+expected list: No - Tool warnings: FileNotFoundError for default input
+<code>../Data/sequences.csv</code>. - Output validation: Not
+reached.</p>
+<p><strong>Rubric relevance:</strong> - Criterion 2: △ (logic present;
+fails in clean run due to path/layout) - Criterion 3: ✔ (clear functions
++ docstrings) - Criterion 8: △ (could raise clearer message / check
+existence before open) - Criterion 9: ✔ (correct “slide and score”
+alignment idea)</p>
+<ul>
+<li>Strong modular approach; failure is primarily repository/layout
+mismatch (Data vs data, Results vs results), not algorithmic
+absence.</li>
+</ul>
+<p><strong>Improvement suggestion:</strong> Use the bootcamp-standard
+<code>data/</code> + <code>results/</code> directories (case-sensitive)
+and add <code>if not infile.exists(): sys.exit(...)</code> with a
+helpful message.</p>
+<h3 id="treeheight.r">TreeHeight.R</h3>
+<p><strong>Status:</strong> Present but not validated (Exit code 1 due
+to missing input file).</p>
+<p><strong>Evidence (from LOG):</strong> - Exit code: 1 - Missing from
+expected list: No - Tool warnings: cannot open
+<code>../Data/trees.csv</code> (missing / wrong case) - Output
+validation: Not reached.</p>
+<p><strong>Rubric relevance:</strong> - Criterion 2: △ - Criterion 3: △
+- Criterion 8: △ - Criterion 9: △</p>
+<ul>
+<li>The script is present but relies on a path that does not exist in
+the tested environment.</li>
+</ul>
+<p><strong>Improvement suggestion:</strong> Switch to relative path
+under the repo’s <code>data/</code> directory (and ensure file is
+committed), and add a guard clause that stops with an informative error
+if the file is missing.</p>
+<h3 id="lc1.py">lc1.py</h3>
+<p><strong>Status:</strong> Present and validated (Exit code 0).</p>
+<p><strong>Evidence (from LOG):</strong> - Exit code: 0 - Missing from
+expected list: No - Tool warnings: None - Output validation: Ran
+successfully.</p>
+<p><strong>Rubric relevance:</strong> - Criterion 2: ✔ - Criterion 3:
+✔/△ (depends on style within file) - Criterion 9: ✔ (implements required
+tasks)</p>
+<ul>
+<li>Evidence of working solutions on at least some assigned
+scripts.</li>
+</ul>
+<p><strong>Improvement suggestion:</strong> Ensure outputs are written
+deterministically to <code>results/</code> (if applicable) and document
+usage in a week README.</p>
+<h3 id="vectorize2.r">Vectorize2.R</h3>
+<p><strong>Status:</strong> Present and validated (Exit code 0).</p>
+<p><strong>Evidence (from LOG):</strong> - Exit code: 0 - Missing from
+expected list: This appears under “unexpected scripts” due to
+naming/casing mismatch, but it executes successfully. - Tool warnings:
+None - Output validation: Ran successfully.</p>
+<p><strong>Rubric relevance:</strong> - Criterion 2: ✔ - Criterion 3:
+✔/△ - Criterion 9: ✔ (vectorisation/performance intent)</p>
+<ul>
+<li>Good sign of successful R execution and engagement with
+performance/vectorisation content.</li>
+</ul>
+<p><strong>Improvement suggestion:</strong> Align filename exactly to
+expected (<code>vectorize2.R</code>) and avoid committing generated
+results unless asked.</p>
+<h3 id="compilelatex.sh">CompileLaTeX.sh</h3>
+<p><strong>Status:</strong> Present but not validated (Exit code 1).</p>
+<p><strong>Evidence (from LOG):</strong> - Exit code: 1 - Missing from
+expected list: Not in expected list; treated as extra tooling. - Tool
+warnings: No stderr captured; likely dependency/path issue in headless
+environment. - Output validation: Not reached.</p>
+<p><strong>Rubric relevance:</strong> - Criterion 2: △ - Criterion 8: △
+(no graceful failure messaging)</p>
+<ul>
+<li>A reasonable automation attempt, but not robust in the assessor
+environment.</li>
+</ul>
+<p><strong>Improvement suggestion:</strong> Print helpful diagnostics
+(check <code>pdflatex</code> exists; check input <code>.tex</code>
+exists) and return non-zero with an explanatory message.</p>
+<h3 id="countlines.sh">CountLines.sh</h3>
+<p><strong>Status:</strong> Present but not validated (Exit code 1).</p>
+<p><strong>Evidence (from LOG):</strong> - Exit code: 1 - Missing from
+expected list: No - Tool warnings: No stderr captured; likely expects
+arguments or files not provided by the harness. - Output validation: Not
+reached.</p>
+<p><strong>Rubric relevance:</strong> - Criterion 2: △ (likely correct
+idea, but needs non-interactive argument handling) - Criterion 8: △
+(should detect missing args and show usage)</p>
+<ul>
+<li>Script exists, but the execution context needs explicit argument
+handling.</li>
+</ul>
+<p><strong>Improvement suggestion:</strong> Add
+<code>if [ $# -lt 1 ]; then echo "Usage: ..."; exit 1; fi</code> and
+ensure it works from a clean CWD.</p>
+<h3 id="outer_function---functiona-middle_fun.r">outer_function &lt;-
+function(a) middle_fun.r</h3>
+<p><strong>Status:</strong> Present but not validated (Exit code 2);
+filename is not a valid script name.</p>
+<p><strong>Evidence (from LOG):</strong> - Exit code: 2 - Missing from
+expected list: Yes (unexpected / malformed filename) - Tool warnings:
+Rscript invoked with an invalid filename. - Output validation: Not
+reached.</p>
+<p><strong>Rubric relevance:</strong> - Criterion 1: ✗ (naming hygiene)
+- Criterion 2: ✗ (cannot be executed as named)</p>
+<ul>
+<li>Likely an accidental filename created during experimentation.</li>
+</ul>
+<p><strong>Improvement suggestion:</strong> Rename to a valid
+<code>.R</code> filename (e.g., <code>middle_fun.R</code>) and keep
+experiments in <code>sandbox/</code>.</p>
+<h2 id="detailed-evaluation-tautocorr.r">Detailed Evaluation:
+TAutoCorr.R</h2>
+<h3 id="a.-specification-alignment">A. Specification Alignment</h3>
+<ul>
+<li>Successive-year pairs constructed via <code>head(df$Temp,-1)</code>
+and <code>tail(df$Temp,-1)</code>.</li>
+<li>Observed correlation computed using
+<code>cor(..., method="pearson")</code> and stored
+(<code>obs_cor</code>).</li>
+<li>Permutation loop shuffles <code>df$Temp</code> (breaks temporal
+order) and recomputes adjacent-year correlation; stores null
+coefficients (<code>perm_cors</code>).</li>
+<li>Approximate p-value computed as
+<code>mean(perm_cors &gt;= obs_cor)</code> and reported.</li>
+<li><strong>Reproducibility:</strong> <code>set.seed(123)</code> used
+(good).</li>
+<li><strong>Pathing / non-interactive:</strong> script runs
+non-interactively; uses relative paths but is hard-coded (does not
+actually parse the CLI args shown in the header comment).</li>
+</ul>
+<h3 id="b.-conceptual-understanding-of-autocorrelation">B. Conceptual
+Understanding of Autocorrelation</h3>
+<ul>
+<li>Correctly targets <em>temporal autocorrelation at lag 1</em> by
+correlating successive years.</li>
+<li>Correctly avoids using the standard correlation test p-value as the
+final answer; uses permutation-derived p-value.</li>
+<li>Uses Pearson correlation; the example solution uses Spearman
+estimate (either can be defensible, but the key point is the
+permutation-based significance test).</li>
+</ul>
+<h3 id="c.-algorithmic-implementation-depth">C. Algorithmic
+Implementation Depth</h3>
+<ul>
+<li>Implementation is clear and compact; indexing for lag-1 pairing is
+correct.</li>
+<li>Uses <code>complete.obs</code> to handle missing values (basic
+robustness).</li>
+<li>Efficiency: O(nperm × n) correlation calls; acceptable at bootcamp
+scale (nperm=5000).</li>
+<li>Plot clarity: histogram with an observed-line and legend; good
+minimal reporting.</li>
+</ul>
+<h3 id="d.-statistical-computational-rigor">D. Statistical &amp;
+Computational Rigor</h3>
+<ul>
+<li>Null model: permutation of the temperature sequence (breaks time
+order) is appropriate for testing whether adjacency correlation is
+larger than expected under no temporal structure.</li>
+<li>P-value definition: uses a one-sided tail
+<code>P(null &gt;= observed)</code>; acceptable if the alternative is
+“positive autocorrelation”. If a two-sided test is intended, would use
+<code>abs(perm) &gt;= abs(obs)</code>.</li>
+</ul>
+<h3 id="e.-error-handling-robustness">E. Error Handling &amp;
+Robustness</h3>
+<ul>
+<li>Has <code>stopifnot</code> to ensure expected columns exist.</li>
+<li>Could add: explicit file existence check before
+<code>read.csv</code>, and a check that there are at least 2 years of
+data.</li>
+</ul>
+<h3 id="f.-comparison-with-example-solution">F. Comparison with Example
+Solution</h3>
+<ul>
+<li><strong>Similarities:</strong>
+<ul>
+<li>Both compute lag-1 correlation by constructing shifted vectors.</li>
+<li>Both generate a null distribution via random permutation and compute
+an approximate p-value as the fraction of null correlations ≥
+observed.</li>
+<li>Both output a PDF figure summarising the null distribution and
+marking the observed value.</li>
+</ul></li>
+<li><strong>Key omissions vs example:</strong>
+<ul>
+<li>No progress bar / user feedback during permutation loop (not
+required).</li>
+<li>Does not use a dedicated helper function for autocorrelation
+(fine).</li>
+<li>Does not demonstrate loading the same RData input as the example
+(uses CSV instead).</li>
+</ul></li>
+<li><strong>Improvements beyond example:</strong>
+<ul>
+<li>Uses <code>complete.obs</code> for NA handling and a concise
+histogram-based visual.</li>
+</ul></li>
+</ul>
+<h3 id="g.-overall">G. Overall</h3>
+<ul>
+<li><strong>Algorithmic evaluation:</strong> Correct lag-1 pairing;
+permutation distribution computed and summarised.</li>
+<li><strong>Conceptual understanding:</strong> Clear understanding of
+temporal adjacency correlation + permutation test.</li>
+<li><strong>Statistical correctness:</strong> Uses permutation p-value
+(good); one-sided tail assumption should be stated.</li>
+</ul>
+<h2 id="overall-feedback">Overall feedback</h2>
+<p><strong>What’s working well</strong> - You have a lot of <em>actual
+code</em> in place, and many scripts execute successfully in the
+automated environment. - Strong commenting/docstring habits across code
+(high documentation ratio). - Groupwork: the group repo contains all
+expected group scripts, and your own contributions are spread across
+multiple dates.</p>
+<p><strong>Highest-impact improvements</strong> 1. <strong>Fix
+case-sensitive paths + standardise directory names</strong>
+(<code>data/</code>, <code>results/</code>, <code>code/</code>). Several
+failures are from <code>../Data/...</code> not existing on Linux. 2.
+<strong>Root README</strong>: expand from 1 line to a short “how to run”
+plus what each week contains (commands + expected outputs). 3.
+<strong>Stop committing generated outputs and environments</strong>: add
+<code>.Rhistory</code>, <code>.RData</code>, <code>__pycache__/</code>,
+<code>*.pyc</code>, and your <code>myenv/</code> environment to
+<code>.gitignore</code> (and remove them from the repo if possible). 4.
+<strong>Make scripts robust to missing inputs</strong>: for shell
+scripts, show usage when args are missing; for Python/R, check file
+existence and fail with a clear message.</p>
+<h3 id="groupwork-evaluation-criterion-6">Groupwork Evaluation
+(Criterion 6)</h3>
+<p>Group repo: 88 commits, 10 branches, 13 merge commits; multiple
+active contributors; all expected group scripts present.</p>
+<ul>
+<li>Collaboration is visible and history is preserved; merge evidence
+exists, but the automated check did not detect clear feature/topic
+branch structure (may be naming).</li>
+</ul>
+<h3 id="individual-group-contribution-criterion-7">Individual Group
+Contribution (Criterion 7)</h3>
+<p>8 commits by Avery Chen (~9.1% of group commits), spread across
+multiple dates; ~384 lines changed; <code>CONTRIBUTIONS.md</code>
+present and non-empty.</p>
+<ul>
+<li>Moderate, meaningful contribution with some temporal spread; not a
+dominant share of coding activity.</li>
+</ul>
+<h2 id="priority-fixes">Priority fixes</h2>
+<ol type="1">
+<li>Standardise paths + casing: use <code>data/</code> and
+<code>results/</code> (not <code>Data/Results</code>).</li>
+<li>Remove <code>myenv/</code> and other unwanted binaries/cache from
+the repo; strengthen <code>.gitignore</code>.</li>
+<li>Expand root README with commands to reproduce key outputs
+(especially assigned scripts).</li>
+<li>Add input validation/usage messages to scripts that expect args or
+files.</li>
+</ol>
+<h2 id="summary">Summary</h2>
+<p>Good work! Many working scripts and strong commenting habits. The
+main issues were <strong>missing expected scripts</strong>,
+<strong>case-sensitive path issues</strong>, a <strong>minimal root
+README</strong>, and <strong>inconsistent
+outputs/environments</strong>.</p>
+<h2 id="mark-classification">Mark classification</h2>
+<!-- Total Mark: 66/100 -->
+<p>Classification: Merit</p>
+</body>
+</html>
