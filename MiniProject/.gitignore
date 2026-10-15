@@ -1,0 +1,9 @@
+# Generated output and local environments
+.venv/
+__pycache__/
+*.pyc
+results/*
+!results/.gitkeep
+# The parent coursework repository ignores CSV globally; keep raw inputs.
+!data/LogisticGrowthData.csv
+!data/LogisticGrowthMetaData.csv

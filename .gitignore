@@ -14,3 +14,9 @@ Week1/Sandbox/
 
 # Example output file to keep
 !Week1/Results/test.txt.csv
+
+# MiniProject local environment and generated outputs
+MiniProject/.venv/
+MiniProject/results/*
+!MiniProject/results/.gitkeep
+__pycache__/

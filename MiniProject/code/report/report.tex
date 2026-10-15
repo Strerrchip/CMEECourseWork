@@ -1,0 +1,182 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,graphicx,booktabs,setspace,lineno}
+\usepackage[round,authoryear]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{placeins}
+\graphicspath{{figures/}}
+% Count prose, section headings and table text, excluding title and captions.
+%TC:group table 0 1
+%TC:group tabular 1 1
+%TC:macro \caption [option:ignore,ignore]
+\onehalfspacing
+\begin{document}
+%TC:ignore
+\begin{titlepage}
+\centering
+\vspace*{2.3cm}
+{\LARGE Comparing microbial growth models\\[0.4cm]
+and temperature effects on fitted parameters\par}
+\vspace{1.8cm}
+{\large Avery L. Chen\par}
+\vspace{0.2cm}
+{\large MSc Computational Methods in Ecology and Evolution\par}
+{\large Imperial College London\par}
+\vspace{1.3cm}
+\input{word_count.tex}
+\vfill
+\end{titlepage}
+%TC:endignore
+\linenumbers
+
+\begin{abstract}
+Population growth models can describe similar observations while giving different parameter estimates. I compared exponential, logistic and Gompertz models using nonlinear least squares on a compiled dataset containing 4,387 observations and 305 curves from ten studies. A common screening rule retained 290 curves; 284 had complete three-model comparisons. Logistic had the lowest corrected Akaike information criterion (AICc) in 123 curves, Gompertz in 92 and exponential in 69. Removing comparisons with numerical warnings retained the same overall ranking. Model preference varied across supplied species labels, but also reflected differences in studies and observed growth phases. A separate temperature analysis used logistic parameters from comparable optical-density curves in one study. Strict screening retained 41 of 88 curves and eight series with at least three temperatures. All eight had positive descriptive slopes of log growth rate against temperature, although individual series were not always monotonic. Plateau estimates showed less consistent temperature patterns. These findings support bounded models for many growth trajectories, while showing that a favourable information criterion does not establish adequate curve shape or reliable biological parameters. Temperature results apply to the retained experimental series and remain conditional on measurement scale, screening choices and model form.
+\end{abstract}
+
+\section{Introduction}
+Microbial growth depends on both the ability of cells to reproduce and the conditions in which they grow. A culture may initially increase rapidly, then slow as resources become limiting. Growth models summarise these changes through parameters such as growth rate and plateau height. However, an experiment that ends during rapid growth provides different information from one that includes a plateau or subsequent decline.
+
+The exponential model assumes a constant per-capita growth rate. The logistic model represents a rate that decreases as the population approaches a limit, while the Gompertz function allows an asymmetric sigmoid. These alternatives have been compared for bacterial growth curves \citep{Zwietering1990}. I expected logistic or Gompertz to receive greater support when observations covered both growth and a plateau. Exponential could be sufficient where only the increasing phase was observed. Comparing models with a penalty for additional parameters helps assess these alternatives without assuming that the most flexible model is always preferable \citep{Johnson2004}.
+
+Temperature can affect growth rate and the final population measurement differently. Bacterial growth rates often increase with temperature below their optimum \citep{Ratkowsky1982}. In contrast, plateau height also depends on resource use, cell size and the measurement method; \citet{Bernhardt2018} linked temperature-dependent carrying capacity to metabolism and body size. I therefore expected increasing fitted rates within suitable temperature ranges, but no common direction for plateau estimates across organisms.
+
+Here I ask two questions: which growth models receive most support across the compiled curves and organism labels, and how do logistic rate and plateau estimates vary with temperature within comparable series? I first compare three models across the dataset. I then restrict the temperature analysis to one study with a common medium and measurement method, so that differences between studies are less likely to obscure the temperature patterns.
+
+\section{Methods}
+\subsection{Data preparation}
+The supplied growth and metadata files contained 4,387 observations from ten cited studies (Table~\ref{tab:studies}). Curves were defined by citation, species label, temperature, medium, replicate label and both measurement and time units. This produced 305 curves. Measurement labels included optical density at 595~nm, N, CFU and dry weight. Labels and observations were retained as supplied; no conversion to cell counts or common biomass units was attempted.
+
+Observations were sorted within curves and time was expressed relative to the first observation. Negative original times, nonpositive measurements and repeated times were flagged for review, without deleting or averaging observations for fitting. Only curves with at least six distinct observation times and a positive time span were fitted. This analysis choice excluded 15 curves and retained 290. It provided a common candidate set and avoided fitting three-parameter curves to extremely small datasets, but did not guarantee adequate coverage of growth phases.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Study composition and fitting coverage. Counts describe curves, not independent species. Measurement units are the supplied labels. ``Complete'' means all three models converged and had finite comparison criteria.}
+\label{tab:studies}
+\begin{tabular}{lrrrl}
+\toprule
+Study & Original & Screened & Complete & Units\\
+\midrule
+\citet{Bae2014} & 88 & 88 & 88 & OD595\\
+\citet{Bernhardt2018} & 25 & 25 & 25 & N\\
+\citet{Galarz2016} & 72 & 72 & 72 & CFU\\
+\citet{Gill1991} & 32 & 29 & 25 & N\\
+\citet{Phillips1987} & 18 & 9 & 9 & N\\
+\citet{Roth1962} & 35 & 34 & 33 & CFU\\
+\citet{Silva2018} & 17 & 17 & 17 & N\\
+\citet{Sivonen1990} & 8 & 8 & 8 & Dry weight\\
+\citet{Stannard1985} & 6 & 4 & 3 & CFU\\
+\citet{Zwietering1994} & 4 & 4 & 4 & N\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Models and numerical fitting}
+For time $t$ since the first observation, the fitted functions were
+\begin{align}
+ y_{\mathrm{exp}}(t)&=N_0\exp(rt),\\
+ y_{\mathrm{log}}(t)&=\frac{K}{1+[(K-N_0)/N_0]\exp(-rt)},\\
+ y_{\mathrm{Gomp}}(t)&=K\exp[-b\exp(-gt)].
+\end{align}
+In the exponential and logistic models, $N_0$ is the fitted initial measurement and $r$ is a rate constant in hours$^{-1}$. In the bounded models, $K$ is the fitted plateau. Gompertz $b$ controls the curve position and $g$ is its rate constant; its initial value is $K\exp(-b)$. The logistic function solves the density-dependent equation $dy/dt=ry(1-y/K)$. Gompertz $g$ and logistic $r$ have different meanings and were not combined in the temperature analysis. All fitted parameters were positive. Logistic can decline when $N_0>K$, whereas this Gompertz form is increasing.
+
+Parameters minimised the sum of squared residuals on each curve's original measurement scale. To improve numerical behaviour, time was divided by duration and measurements by their maximum absolute value during optimisation. Parameters were converted back to original units afterwards. Bounded SciPy least-squares optimisation used three starting values for exponential, six for logistic and twelve for Gompertz. The converged solution with lowest residual sum of squares was retained. Initially, each start allowed 2,000 function evaluations; failed model--curve pairs alone were retried with 10,000. Successful original fits were not replaced by retries.
+
+On the scaled axes, exponential started at the mean measurement with rates 0.1, 1 and 3. Logistic used the first measurement with rates 1, 5 and 20 and capacities 1 and 2. Gompertz combined capacities 1 and 2, shape parameters 1 and 4, and rates 1, 5 and 20. Initial measurement guesses were bounded below by 0.01; optimisation bounds were $10^{-10}$ to infinity for all parameters.
+
+Numerical review flags identified a rank-deficient fitted Jacobian, a non-finite condition number or one above $10^8$, or a scaled parameter at or below $10^{-8}$. These thresholds are diagnostics of possible instability, not formal tests of biological identifiability. Predicted curves and residuals were also inspected, with attention to decline, weak growth and missing plateaus (Figure~\ref{fig:examples}).
+
+\subsection{Model comparison}
+For comparison, residuals were provisionally treated as independent Gaussian errors with constant variance within each curve. With $n$ observations, residual sum of squares RSS and fitted variance RSS/$n$, the maximised log likelihood was
+\begin{equation}
+\widehat{\ell}=-\frac{n}{2}\left[\log(2\pi)+1+\log(\mathrm{RSS}/n)\right].
+\end{equation}
+The parameter count $k$ included error variance: three for exponential and four for logistic and Gompertz. I calculated AIC $=-2\widehat{\ell}+2k$ \citep{Akaike1974}, the finite-sample adjustment
+\begin{equation}
+\mathrm{AICc}=\mathrm{AIC}+\frac{2k(k+1)}{n-k-1},
+\end{equation}
+and BIC $=-2\widehat{\ell}+k\log n$ \citep{Schwarz1978}. The AICc adjustment follows the small-sample model-selection approach of \citet{Hurvich1989}; its application here is an approximation for nonlinear fits under the stated error model.
+
+AICc was the primary criterion and BIC a sensitivity comparison. Comparisons required three converged fits and finite criteria on the same observations. Differences were calculated from each curve's minimum; raw criteria and RMSE were not averaged across different measurement units. A unique minimum used an absolute numerical tie tolerance of $10^{-8}$. Models within two AICc units were recorded as having similar relative support. A second summary removed any curve with a numerical flag in any candidate model, retaining a common three-model comparison set.
+
+\subsection{Temperature analysis}
+Temperature analysis used the 88 Bae-study curves labelled TSB and OD595 \citep{Bae2014}. One model form, logistic, was retained at every temperature to keep parameter definitions consistent. Series preserved exact citation, species or strain label, medium, replicate label and measurement unit. A replicate label shared across temperatures was not treated as proof of a paired design.
+
+Strict screening required a converged logistic fit without a numerical flag, $K>N_0$, an inflection within the observed period, an observed measurement range greater than five RMSE, and a final prediction at least 90\% of $K$. At least three distinct times had to fall between 10\% and 90\% of fitted $K$. A late-decline diagnostic compared the median of the three highest time-averaged measurements with the median of the last three, relative to the increase from the first measurement to that high value; declines above 20\% were excluded. Repeated times were averaged only for this diagnostic.
+
+A relaxed sensitivity screen used three RMSE, 80\% of $K$, two transition times and a 30\% decline limit. These thresholds were analysis choices used to select curves with visible growth and plateau phases. Series with at least three retained temperatures were plotted. Straight-line slopes of $\log r$ against temperature summarised direction across the observed range. They were descriptive summaries, rather than estimates of an optimum temperature. Logistic AICc support was displayed but was not an additional selection rule.
+
+\subsection{Computing tools}
+I used Python 3.14.5 throughout the analysis to keep data processing and fitting in one environment. pandas 3.0.6 handled the grouped data and summary tables, NumPy 2.5.4 provided array operations, and SciPy 1.18.1 supplied nonlinear least-squares optimisation \citep{Virtanen2020}. Matplotlib 3.11.2 produced vector PDF figures. I ran the scripts from Windows PowerShell within a virtual environment; separate R or bash analyses were unnecessary. LaTeX formatted the report, and BibTeX managed author--year citations.
+
+\section{Results}
+\subsection{Fitting coverage and overall model preference}
+After retries, exponential and logistic converged for all 290 screened curves, while Gompertz converged for 284. Six curves therefore lacked a complete comparison. Of the 284 complete comparisons, 50 had at least one numerical flag and 234 had none. Retry convergence did not by itself remove numerical concerns.
+
+Logistic had the unique minimum AICc in 123 of 284 curves (43.3\%), Gompertz in 92 (32.4\%) and exponential in 69 (24.3\%; Figure~\ref{fig:comparison}). Logistic and Gompertz were each within two AICc units of the minimum in 172 curves; exponential was within two units in 76. These counts overlap because more than one model can be within two units for the same curve.
+
+After removing all numerically flagged comparisons, the AICc counts were 106 logistic, 80 Gompertz and 48 exponential among 234 curves. The ranking was unchanged. BIC selected logistic in 148, Gompertz in 117 and exponential in 19 of the 284 full comparisons. In the subset without numerical flags, the corresponding BIC counts were 129, 99 and six.
+
+\subsection{Variation across organisms and curve shapes}
+Complete comparisons covered 45 supplied species, strain or community labels. All 12 curves from the three \textit{Pantoea agglomerans} groups had minimum AICc for logistic. In contrast, all eight \textit{Salmonella} Typhimurium comparisons and all eight \textit{Oscillatoria} comparisons selected exponential. The group labelled \textit{Tetraselmis tetrahele} had 11 Gompertz, nine logistic and five exponential minima among 25 curves.
+
+Study-level patterns also differed. Within Bae, minima were 55 logistic, 31 Gompertz and two exponential among 88 curves. Within Gill, exponential had 21 of 25 minima.
+
+The four examples showed different trajectory shapes (Figure~\ref{fig:examples}). C041 increased and reached a plateau, which logistic and Gompertz followed closely. C034 increased and then declined below the fitted plateaus. C185 had no observed plateau, and all three fitted curves nearly overlapped. C246 varied little around its baseline. The bounded fits for C185 and C246 had numerical warnings.
+
+\subsection{Temperature patterns}
+Strict screening retained 41 of 88 Bae curves; relaxed screening retained 46. Retention differed across temperatures: 14/22 at 5~$^\circ$C, 7/22 at 15~$^\circ$C and 10/22 at both 25 and 35~$^\circ$C. Eight strict series, containing 26 retained curves, had at least three temperatures.
+
+All eight strict series had positive descriptive slopes of $\log r$ against temperature (Figure~\ref{fig:rate}). Their highest-to-lowest retained temperature rate ratios ranged from 4.9 to 33.6, across different temperature spans. Seven series increased at every retained temperature; Enterobacter had a lower estimate at 25 than at 15~$^\circ$C before increasing at 35~$^\circ$C. Positive overall slopes therefore did not imply universal monotonicity.
+
+The relaxed screen added two qualifying series. All ten relaxed series had positive slopes, and the eight shared series retained positive directions. Plateau estimates were less consistent (Figure~\ref{fig:plateau}). Five strict series increased at each retained temperature. \textit{Chryseobacterium balustinum}, \textit{Enterobacter} sp. and the group labelled \textit{Stenotrophomonas maltophilia}.2 were nonmonotonic. For example, the \textit{Enterobacter} plateau declined from 0.952 at 25~$^\circ$C to 0.925 at 35~$^\circ$C.
+
+\section{Discussion}
+I compared growth models across organisms and then examined temperature patterns within comparable series. Logistic was most often preferred, followed by Gompertz, and removing numerical warnings did not change this order. However, several models could have similar support for the same curve. As emphasised by \citet{Johnson2004}, model selection compares the proposed alternatives; it does not establish that the preferred model captures every process in the data.
+
+The examples were consistent with the expectation that the observed growth phase affects model preference. Where growth and a plateau were both recorded, bounded curves described the trajectory more closely. Without a plateau, their capacity estimates could be poorly constrained even when the fitted lines almost coincided with exponential. Decline after growth caused a different problem: a simple sigmoid could not follow both the initial increase and the later decrease. These patterns also limit the interpretation of differences among organism labels. The \textit{Pantoea} and \textit{Salmonella} groups came from different experimental settings, so their model preferences cannot be attributed to species biology alone.
+
+AICc and BIC also gave different proportions of exponential minima. For a curve with six observations, the AICc correction is 12 for exponential ($k=3$), but 40 for either bounded model ($k=4$). This large difference can favour exponential in a short series. BIC has a different sample-size penalty. The disagreement therefore shows that conclusions depend partly on the comparison criterion, especially where sampling is sparse.
+
+The positive rate slopes were consistent with faster bacterial growth at higher temperatures below the optimum, as described by \citet{Ratkowsky1982}. However, the fitted logistic constant is a model parameter rather than a direct measurement of cell division. The \textit{Enterobacter} series was also nonmonotonic, so a positive overall slope should not be read as a steady increase at every temperature. The range and number of temperatures were insufficient to locate thermal optima.
+
+Plateau values did not show the same common direction. This is biologically plausible because faster reproduction need not produce a higher final cell number or biomass. \citet{Bernhardt2018} showed that temperature effects on carrying capacity can involve metabolism and body size. Optical density adds a measurement constraint: it depends on light scattering and requires calibration before it can represent cell abundance quantitatively \citep{Stevenson2016}. The present $K$ estimates should therefore be interpreted as OD plateaus within each series.
+
+Restricting temperature analysis to one study, medium and measurement scale reduced some confounding. Nevertheless, screening retained fewer curves at 15~$^\circ$C than at the other temperatures. Selecting curves with clear growth and limited decline may exclude meaningful responses, including stress or mortality. The temperature patterns consequently apply to the retained series, rather than to all organisms in the compiled dataset.
+
+Several limitations affect interpretation. Additive constant-variance errors may be inappropriate for measurements whose variability increases with magnitude. Repeated observations in a time series may also violate the independence assumption. Numerical flags depend on scaling and thresholds; their absence is not a confidence interval or a proof of identifiability. The current analysis does not quantify parameter uncertainty. A sensitivity screen addresses only some choices and cannot replace uncertainty estimation.
+
+Measurement scale is a further limitation. The supplied CFU and N labels do not consistently identify transformations or normalisation. This is particularly relevant for nearly flat curves around a nonzero baseline. In addition, one source concerns experiments with temperature shifts \citep{Zwietering1994}, so a single supplied temperature label may not describe the complete experimental history. Keeping these curves in the broad comparison allowed their fitted shapes to be compared, but they were excluded from the restricted temperature analysis.
+
+A likelihood model with variance increasing with the mean could give a different balance between early and late observations than least squares with constant variance. This would help distinguish a change in estimated growth from a change caused by the error assumption. A Bayesian hierarchical model could estimate uncertainty in temperature effects while accounting for differences between strains and studies. Its joint distribution for rate and plateau would also show whether an apparent temperature trend was supported separately from uncertainty in $K$. Such analyses would need defensible measurement models and priors; they could not recover an unobserved plateau without additional assumptions. A predictive machine-learning model could provide a further benchmark, but validation should hold out complete curves or studies to avoid treating correlated observations as independent.
+
+\section{Conclusion}
+Logistic was the most frequently preferred model, followed by Gompertz, and this ranking persisted after removing numerical warnings. Preference varied across organism labels and studies, with curve shape and sampling providing important explanations. Within the screened Bae series, logistic growth rates generally increased with temperature, while plateau patterns were less uniform. These findings support combining information criteria with numerical and graphical diagnostics, and limiting biological conclusions to the conditions and measurement scales that the data can support.
+
+\FloatBarrier
+\begin{figure}[p]
+\centering\includegraphics[width=\textwidth]{figure_1_fit_examples.pdf}
+\caption{Illustrative observed trajectories and fitted growth models. C041 shows growth and a plateau, C034 growth followed by decline, C185 growth without an observed plateau, and C246 little net change. Examples were chosen to illustrate distinct limitations, not as a random sample. Lines evaluate fitted equations on a dense time grid. CFU labels are retained as supplied and do not confirm the original measurement transformation. Several C185 and C246 parameters have numerical warnings.}
+\label{fig:examples}
+\end{figure}
+\begin{figure}[p]
+\centering\includegraphics[width=\textwidth]{figure_2_model_comparison.pdf}
+\caption{Relative model preference under AICc and BIC for 284 complete comparisons and the 234 comparisons without numerical warnings in any candidate model. Bar heights are percentages of curves with a unique minimum; numbers above bars are counts. Comparisons always use the same three candidate models within each retained curve. A preferred model may still have structured residuals or unreliable parameters.}
+\label{fig:comparison}
+\end{figure}
+\begin{figure}[p]
+\centering\includegraphics[width=\textwidth,height=.73\textheight,keepaspectratio]{figure_4_temperature_growth_rate.pdf}
+\caption{Logistic rate estimates in eight Bae-study series (TSB, OD595) with at least three temperatures after strict screening. The vertical axes are logarithmic and separately scaled. Orange points have logistic $\Delta$AICc below two; blue points do not. Lines connect estimates and do not represent fitted temperature-response functions. Confidence intervals are not available. Panel names abbreviate the supplied labels: B., C., K., P. and S. denote Bacillus, Chryseobacterium, Klebsiella, Pseudomonas and Stenotrophomonas. Parentheses retain the supplied strain or group identifiers.}
+\label{fig:rate}
+\end{figure}
+\begin{figure}[p]
+\centering\includegraphics[width=\textwidth,height=.73\textheight,keepaspectratio]{figure_5_temperature_plateau.pdf}
+\caption{Logistic plateau estimates for the same eight screened series, with panel names and colours as in Figure~\ref{fig:rate}. Each panel has a separate vertical scale. These are OD595 plateaus rather than cell counts. Five series increase at every retained temperature, while three have nonmonotonic patterns. Lines connect estimates; confidence intervals are not available.}
+\label{fig:plateau}
+\end{figure}
+\clearpage
+\setlength{\bibsep}{5pt}
+\bibliographystyle{apalike}
+\bibliography{references}
+\end{document}

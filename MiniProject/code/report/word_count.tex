@@ -1,0 +1,4 @@
+% Overleaf supports TeXcount during compilation. The title is excluded by
+% the surrounding TC:ignore directives in report.tex.
+\immediate\write18{texcount -1 -sum=1,1,0,0,0,0,0 -merge -q report.tex > report-words.sum}
+{\large Word count: \input{report-words.sum}\par}
