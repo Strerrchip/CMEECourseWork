@@ -1,0 +1,1 @@
+In a finite closed community without speciation, richness can decrease but cannot increase. Random replacement eventually leaves a single species with probability one. This state is absorbing: offspring cannot reintroduce an absent species. The time to reach monodominance is random, so it need not occur within the 200 generations plotted.

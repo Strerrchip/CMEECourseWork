@@ -1,0 +1,5 @@
+Question 1
+The adult population increases more rapidly at first because all initial individuals can reproduce. The spread population has fewer adults, and its younger stages must mature before reproducing. Both trajectories eventually approach the same proportional growth rate because they share the same projection matrix, although their population sizes need not become equal.
+
+Question 2
+The stochastic trajectories fluctuate because survival, maturation and reproduction are random. The deterministic model uses expected transitions, producing more regular trajectories. A stochastic run can depart from the deterministic prediction and will generally change when the random seed changes. Initial stage composition can still cause early transients in either model.

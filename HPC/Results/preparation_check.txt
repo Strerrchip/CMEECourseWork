@@ -1,0 +1,12 @@
+HPC coursework preparation check
+Required function signatures passed: 25
+Main file source time (seconds): 0.01
+Main file: no printed output, simulation output, graphics, RNG or directory changes when sourced.
+Required R and shell files are present; R syntax and shell line endings passed.
+Personal rate identity, course year and value passed.
+Name field completed: TRUE
+Preferred name field completed: TRUE
+Demographic task files: 0 / 100
+Neutral task files: 0 / 100
+This checks local preparation, not HPC execution or scheduler compatibility.
+Actual R availability, job logs and complete simulation outputs must still be checked on HPC.

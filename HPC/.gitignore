@@ -1,0 +1,7 @@
+__pycache__/
+*.tmp
+*~
+# The parent repository ignores CSV and PNG globally. Retain HPC deliverables.
+!Data/**
+!Results/**
+!Log/**
