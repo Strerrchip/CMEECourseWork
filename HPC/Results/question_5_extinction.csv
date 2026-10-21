@@ -1,0 +1,5 @@
+"initial_condition","n_simulations","n_extinct","proportion_extinct"
+"Large adult",3750,0,0
+"Small adult",3750,190,0.0506666666666667
+"Large mixed",3750,0,0
+"Small mixed",3750,619,0.165066666666667

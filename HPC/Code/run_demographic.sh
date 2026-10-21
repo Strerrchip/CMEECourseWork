@@ -8,6 +8,7 @@
 set -euo pipefail
 cd "${PBS_O_WORKDIR:?Submit this script from the coursework root}"
 
+module load R/4.4.2-gfbf-2024a
 # Check the R environment before submission. Its setup depends on the cluster.
 if ! command -v Rscript >/dev/null 2>&1; then
     echo "Rscript is unavailable. Set up the supported R environment before submitting." >&2

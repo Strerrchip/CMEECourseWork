@@ -1,0 +1,19 @@
+Host: cx3-2-1
+Array task: 89
+Array task: 89 
+Community size: 5000 
+Personal speciation rate: 0.0021811 
+Simulation minutes: 690 
+Burn-in generations: 40000 
+Richness interval: 1 Octave interval: 500 
+Output: Data/lc2025_neutral_89.rda 
+Completed and saved array task: 89 
+
+====================================
+CPU Time used: 11:21:15
+CPU Percent: 98%
+Memory usage: 203528kb
+Approx Power usage: 0.1362
+Walltime usage: 11:30:21
+
+====================================
